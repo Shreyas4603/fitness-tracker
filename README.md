@@ -1,14 +1,8 @@
 # Fitness Tracker - Backend
 
-This is the backend component of the Fitness Tracker project.
+This is  the Fitness Tracker project.
 
-## Prerequisites
 
-Make sure you have Python installed on your system.
-pip install fastapi
-pip install uuid 
-pip install bcrypt
-pip install uvicorn
 
 
 ## Installation
@@ -16,3 +10,18 @@ pip install uvicorn
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/fitness-tracker.git
+
+2. Change path:
+   ```bash
+   cd backend
+
+3. Install packages:
+   ```bash
+   pip install fastapi uuid bcrypt uvicorn
+
+
+
+
+
+
+
