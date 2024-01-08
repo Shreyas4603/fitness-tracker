@@ -19,9 +19,6 @@ This is  the Fitness Tracker project.
    ```bash
    pip install fastapi uuid bcrypt uvicorn
 
-
-
-
-
-
-
+4. ### Run server:
+   ```bash
+   uvicorn server:app --reload
