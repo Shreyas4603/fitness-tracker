@@ -1,1 +1,1 @@
-use this folder for backend
+use this folder for frontend
