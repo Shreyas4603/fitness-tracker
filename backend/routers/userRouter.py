@@ -62,7 +62,7 @@ def userLogin(body:loginCreds):
     
 
 @router.post(USER_URL+"/register",status_code=200)
-def userregister(body:registerCreds):
+def userRegister(body:registerCreds):
     user_uuid = str(uuid.uuid4())  
 
     email_pattern = re.compile(r"[^\s@]+@[^\s@]+\.[^\s@]+")
