@@ -11,7 +11,7 @@ const handleButtonClick = () => {
   console.log("first",isRevealed); // Toggleevealed); // Toggle
 };
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white sticky border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a
           href="/"
@@ -34,7 +34,7 @@ const handleButtonClick = () => {
             aria-expanded="false"
             data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom"
-            href={"../login/"}
+            href={"../register/"}
           >
             <span className="sr-only">Open user menu</span>
             <img
