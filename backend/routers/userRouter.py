@@ -86,7 +86,7 @@ def userRegister(body:registerCreds):
 
 
     else:
-        cur.execute(f'INSERT into users values ("{user_uuid}","{body.name}","{body.email}","{generatePassword(body.password).decode('utf-8')}","{body.gender}") ;' )
+        cur.execute(f'INSERT into users values ("{user_uuid}","{body.name}","{body.email}","{generatePassword(body.password).decode("utf-8")}","{body.gender}") ;' )
         db.myconn.commit()
         return({"data": user_uuid})
     
