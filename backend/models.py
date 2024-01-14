@@ -18,3 +18,16 @@ userId varchar(255),
 foreign key (userId) references users(userId)
 );
 '''
+
+exercises='''
+CREATE TABLE exercises (
+    exerciseId varchar(255) PRIMARY KEY,
+    userId varchar(255) NOT NULL,
+    exerciseName varchar(255) NOT NULL,
+    duration varchar(255),
+    distance varchar(255),
+    calories DECIMAL(10,2),
+    achievement BOOLEAN DEFAULT 0,
+    FOREIGN KEY (userId) REFERENCES users(userId)
+);
+'''
