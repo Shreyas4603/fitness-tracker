@@ -2,44 +2,45 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-
-
+import { useState } from "react";
+import axios from "axios";
 
 export default function Home() {
-
+const [isLogged, setIsLogged] = useState(false);
 const router = useRouter();
 async function handleSubmit(event) {
-
   event.preventDefault();
   const formData = new FormData(event.currentTarget);
-  
+
   // Convert form data to an object
   const formObject = Object.fromEntries(formData.entries());
+  console.log(JSON.stringify(formObject));
 
-  // Post the form data to your API route
+  // Post the form data to your API route using Axios
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/user/register", {
-      method: "POST",
-      
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formObject),
+    const response = await axios.post("http://127.0.0.1:8000/api/user/register", formObject, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok " + response.statusText);
+    console.log(formObject);
+
+    if (!response.data) {
+      throw new Error("Network response was not ok");
     }
 
+    router.replace("/");
     // Handle the response data
-    const data = await response.json();
-    console.log(data);
+    console.log(response.data, "helloooo");
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-    
-      router.push('login')
-    
+    console.error("There was a problem with the fetch operation:", error.message);
+
+    if (!isLogged) {
+      router.push('login');
+    }
   }
 }
-
   return (
     <section className="bg-gray-50 dark:bg-gray-500">
       <section className="bg-gray-50 dark:bg-gray-800">
@@ -135,7 +136,7 @@ async function handleSubmit(event) {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
                   <a
-                    href="#"
+                    href="/login"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Login here
