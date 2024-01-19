@@ -17,13 +17,7 @@ export default function Home() {
     </a>
     
     <Radar
-    options= {{scales: {y:{beginAtZero: true}},    elements: {
-      radar: {
-        backgroundColor: 'rgba(255, 99, 132, 0.2)', // Set the background color for the chart area
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-    }}}
+    options= {{scales: {y:{beginAtZero: true}}}}
   data={{
     labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
     datasets: [
