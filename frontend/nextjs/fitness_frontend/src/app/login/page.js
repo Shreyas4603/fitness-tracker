@@ -8,6 +8,22 @@ import axios from "axios";
 
 export default function Home() {
 const [isLogged, setIsLogged] = useState(false);
+const [uid, setUid] = useState("");
+const saveToLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('UserID', uid);
+  }
+};
+
+// Function to load from local storage
+const loadFromLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    const storedValue = localStorage.getItem('UserID');
+    if (storedValue) {
+      setUid(storedValue);
+    }
+  }
+};
 const router = useRouter();
 async function handleSubmit(event) {
   event.preventDefault();
@@ -31,9 +47,12 @@ async function handleSubmit(event) {
       throw new Error("Network response was not ok");
     }
 
-    router.replace("/");
+   
     // Handle the response data
     console.log(response.data, "helloooo");
+    localStorage.setItem('UserID', response.data.data.pid);
+    console.log(localStorage.getItem('UserID'))
+    router.replace("/");
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error.message);
 

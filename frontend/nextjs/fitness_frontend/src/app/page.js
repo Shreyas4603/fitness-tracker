@@ -1,24 +1,12 @@
 "use client"
 import Image from 'next/image'
+import axios from 'axios';
+
 import { Chart } from 'chart.js/auto'
 import { Bar,Doughnut,Line,Radar } from 'react-chartjs-2'
+import { useState,useEffect } from 'react'
 export default function Home() {
-  return (
-    <div className="flex flex-wrap justify-center items-center my-5  h-screen">
-    <div className="max-w-xl w-96 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-  <a href="#">
-    <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-  </a>
-  <div className="p-5">
-    <a href="#">
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-        Exercise charts
-      </h5>
-    </a>
-    
-    <Radar
-    options= {{scales: {y:{beginAtZero: true}}}}
-  data={{
+  const [chartData, setChartData] = useState({
     labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
     datasets: [
       {
@@ -33,14 +21,103 @@ export default function Home() {
         label: "calories",
         data: [300, 400, 200],
       },
-
     ],
-    backgroundColor: 'rgba(0, 192, 192, 0.2)',
-    borderColor: 'rgba(75, 192, 192, 1)',
-    borderWidth: 1,
-  }}
-  
+  });
+  const [uid, setUid] = useState("");
+  const fetchData = async () => {
+    try {
+      // Replace 'API_ENDPOINT' with the actual endpoint of your API
+      let apistr='http://127.0.0.1:8000/api/exercise/getall/'+localStorage.getItem('UserID');
+      const response = await axios.get(apistr);
+      const data = response.data;
 
+      console.log(localStorage.getItem('UserID'));
+      let norData=normalizeData(data);
+      if (Array.isArray(data) && data.length > 0) {
+        const newData = {
+          labels: data.map(exercise => exercise.exerciseName || ''),
+          datasets: [
+            {
+              label: "duration",
+              data: norData.map(exercise => exercise.duration || 0),
+            },
+            {
+              label: "distance",
+              data: norData.map(exercise => exercise.distance || 0),
+            },
+            {
+              label: "calories",
+              data: norData.map(exercise => exercise.calories || 0),
+            },
+          ],
+        };
+
+        setChartData(newData);
+      } else {
+        console.error('Invalid data format or empty array:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  const loadFromLocalStorage = () => {
+    if (typeof window !== 'undefined') {
+      const storedValue = localStorage.getItem('UserID');
+      if (storedValue) {
+        setUid(storedValue);
+      }
+    }
+  };
+  useEffect(() => {
+
+    fetchData();
+    
+  }, []);
+
+  function normalizeData(data) {
+    const normalizedData = [];
+    const minMaxValues = {};
+  
+    // Check if data is not empty and has elements
+    if (Array.isArray(data) && data.length > 0) {
+      // Find min and max values for each property
+      Object.keys(data[0]).forEach(key => {
+        const values = data.map(item => item[key]);
+        minMaxValues[key] = { min: Math.min(...values), max: Math.max(...values) };
+      });
+  
+      // Normalize data
+      data.forEach(item => {
+        const normalizedItem = {};
+        Object.keys(item).forEach(key => {
+          const value = item[key];
+          const { min, max } = minMaxValues[key];
+          normalizedItem[key] = (value - min) / (max - min);
+        });
+        normalizedData.push(normalizedItem);
+      });
+    } else {
+      console.error('Data is empty or not an array:', data);
+    }
+  
+    return normalizedData;
+  }
+  return (
+    <div className="flex flex-wrap justify-center items-center my-5  h-screen">
+    <div className="max-w-xl w-96 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+  <a href="/exerciseview">
+    <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+  </a>
+  <div className="p-5">
+    <a href="/exerciseview" className='hover:text-blue-500'>
+      <h5 className="hover:bg-gray-200 underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+        Exercise charts
+      </h5>
+    </a>
+    
+    <Radar
+    options= {{}}
+  data={chartData}
 />
 
 
@@ -48,7 +125,7 @@ export default function Home() {
 
 
     <a
-      href="#"
+      href="/exercises"
       className="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     >
       Add more
