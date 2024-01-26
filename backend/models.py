@@ -31,3 +31,17 @@ CREATE TABLE exercises (
     FOREIGN KEY (userId) REFERENCES users(userId)
 );
 '''
+
+workouts='''
+CREATE TABLE workouts (
+  workoutId varchar(255) PRIMARY KEY,
+  userid varchar(255) NOT NULL,
+  workoutName VARCHAR(255) ,
+  reps INT,
+  weight INT,
+  date DATE,
+  achievement BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
+);
+'''
+
