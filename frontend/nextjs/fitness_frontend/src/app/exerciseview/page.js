@@ -102,7 +102,7 @@ export default function Home() {
         </h1>
       </div>
       <div className="flex flex-wrap justify-center items-center m-3">
-        <div className="max-w-xl w-96 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+        <div className="max-w-full w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
           <a href="/exerciseView">
             <img
               className="rounded-t-lg"
@@ -129,7 +129,7 @@ export default function Home() {
 
           </div>
         </div>
-        <div className="max-w-xl w-96 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+        <div className="max-w-xl w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
           <a href="/exerciseView">
             <img
               className="rounded-t-lg"
@@ -156,7 +156,7 @@ export default function Home() {
 
           </div>
         </div>
-        <div className="max-w-xl w-96 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+        <div className="max-w-xl w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
           <a href="/exerciseView">
             <img
               className="rounded-t-lg"
