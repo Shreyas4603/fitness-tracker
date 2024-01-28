@@ -23,6 +23,19 @@ export default function Home() {
       },
     ],
   });
+  const [workoutChartData, setWorkoutChartData] = useState({
+    labels: ["Workout 1", "Workout 2", "Workout 3"],
+    datasets: [
+      {
+        label: "reps",
+        data: [100, 200, 300],
+      },
+      {
+        label: "weight",
+        data: [200, 300, 100],
+      },
+    ],
+  });
   const [uid, setUid] = useState("");
   const fetchData = async () => {
     try {
@@ -62,6 +75,40 @@ export default function Home() {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchWorkoutData = async () => {
+    try {
+      // Replace 'API_ENDPOINT' with the actual endpoint of your API
+      let apistr =
+        "http://127.0.0.1:8000/api/workout/getall/" +
+        localStorage.getItem("UserID");
+      const response = await axios.get(apistr);
+      const data = response.data;
+
+      console.log(data);
+      let norData = normalizeData(data);
+      if (Array.isArray(data) && data.length > 0) {
+        const newData = {
+          labels: data.map((workout) => workout.workoutName || ""),
+          datasets: [
+            {
+              label: "reps",
+              data: norData.map((workout) => workout.reps || 0),
+            },
+            {
+              label: "weight",
+              data: norData.map((workout) => workout.weight || 0),
+            },
+          ],
+        };
+
+        setWorkoutChartData(newData);
+      } else {
+        console.error("Invalid data format or empty array:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const loadFromLocalStorage = () => {
     if (typeof window !== "undefined") {
       const storedValue = localStorage.getItem("UserID");
@@ -73,7 +120,9 @@ export default function Home() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  useEffect(() => {
+    fetchWorkoutData();
+  }, []);
   function normalizeData(data) {
     const normalizedData = [];
     const minMaxValues = {};
@@ -147,8 +196,8 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <div className="max-w-sm m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="#">
+      <div className=" max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+        <a href="/workoutview">
           <img
             className="rounded-t-lg"
             src="/docs/images/blog/image-1.jpg"
@@ -156,20 +205,19 @@ export default function Home() {
           />
         </a>
         <div className="p-5">
-          <a href="#">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Noteworthy technology acquisitions 2021
+          <a href="/workoutview" className="hover:text-blue-500">
+            <h5 className="hover:bg-gray-200 underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+              Workout charts
             </h5>
           </a>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            Here are the biggest enterprise technology acquisitions of 2021 so
-            far, in reverse chronological order.
-          </p>
+
+          <Radar options={{}} data={workoutChartData} />
+
           <a
-            href="#"
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            href="/workouts"
+            className="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Read more
+            Add more
             <svg
               className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
               aria-hidden="true"
