@@ -45,3 +45,17 @@ CREATE TABLE workouts (
 );
 '''
 
+diet='''
+CREATE TABLE diet (
+  dietId varchar(255) PRIMARY KEY,
+  userid varchar(255) NOT NULL,
+  mealType VARCHAR(255) ,
+  protein DECIMAL(10,2),
+  calories DECIMAL(10,2),
+  date DATE,
+  FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
+);
+'''
+
+
+
