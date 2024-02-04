@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import userRouter, parameterRouter,exerciseRouter,workoutRouter
+from routers import userRouter, parameterRouter,exerciseRouter,workoutRouter,dietRouter
 import initial_config
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
@@ -21,3 +21,4 @@ app.include_router(userRouter.router)
 app.include_router(parameterRouter.router)
 app.include_router(exerciseRouter.router)
 app.include_router(workoutRouter.router)
+app.include_router(dietRouter.router)
