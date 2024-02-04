@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
+import image from "next/image";
+import ViewChartComponent from "../components/ViewChartComponent";
 import axios from "axios";
-import { Chart } from "chart.js/auto";
-import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
-import { useState, useEffect } from "react";
-export default function Home() {
-  const [durchartData, setDurChartData] = useState({
-    labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
+import { usestate, useeffect } from "react";
+export default function home() {
+  const [durchartdata, setdurchartdata] = usestate({
+    labels: ["exercise 1", "exercise 2", "exercise 3"],
     datasets: [
       {
         label: "duration",
@@ -14,8 +13,8 @@ export default function Home() {
       },
     ],
   });
-  const [distchartData, setDistChartData] = useState({
-    labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
+  const [distchartdata, setdistchartdata] = usestate({
+    labels: ["exercise 1", "exercise 2", "exercise 3"],
     datasets: [
       {
         label: "distance",
@@ -23,8 +22,8 @@ export default function Home() {
       },
     ],
   });
-  const [calchartData, setCalChartData] = useState({
-    labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
+  const [calchartdata, setcalchartdata] = usestate({
+    labels: ["exercise 1", "exercise 2", "exercise 3"],
     datasets: [
       {
         label: "calories",
@@ -32,20 +31,20 @@ export default function Home() {
       },
     ],
   });
-  const [uid, setUid] = useState("");
-  const fetchData = async () => {
+  const [uid, setuid] = usestate("");
+  const fetchdata = async () => {
     try {
-      // Replace 'API_ENDPOINT' with the actual endpoint of your API
+      // replace 'api_endpoint' with the actual endpoint of your api
       let apistr =
         "http://127.0.0.1:8000/api/exercise/getall/" +
-        localStorage.getItem("UserID");
+        localstorage.getitem("userid");
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(localStorage.getItem("UserID"));
-      if (Array.isArray(data) && data.length > 0) {
-        const newDurationData = {
-          labels: data.map((exercise) => exercise.exerciseName || ""),
+      console.log(localstorage.getitem("userid"));
+      if (array.isarray(data) && data.length > 0) {
+        const newdurationdata = {
+          labels: data.map((exercise) => exercise.exercisename || ""),
           datasets: [
             {
               label: "duration",
@@ -53,8 +52,8 @@ export default function Home() {
             },
           ],
         };
-        const newDistanceData = {
-          labels: data.map((exercise) => exercise.exerciseName || ""),
+        const newdistancedata = {
+          labels: data.map((exercise) => exercise.exercisename || ""),
           datasets: [
             {
               label: "distance",
@@ -62,8 +61,8 @@ export default function Home() {
             },
           ],
         };
-        const newCaloriesData = {
-          labels: data.map((exercise) => exercise.exerciseName || ""),
+        const newcaloriesdata = {
+          labels: data.map((exercise) => exercise.exercisename || ""),
           datasets: [
             {
               label: "calories",
@@ -71,19 +70,19 @@ export default function Home() {
             },
           ],
         };
-        setDurChartData(newDurationData);
-        setDistChartData(newDistanceData);
-        setCalChartData(newCaloriesData);
+        setdurchartdata(newdurationdata);
+        setdistchartdata(newdistancedata);
+        setcalchartdata(newcaloriesdata);
       } else {
-        console.error("Invalid data format or empty array:", data);
+        console.error("invalid data format or empty array:", data);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("error fetching data:", error);
     }
   };
-  const loadFromLocalStorage = () => {
+  const loadfromlocalstorage = () => {
     if (typeof window !== "undefined") {
-      const storedValue = localStorage.getItem("UserID");
+      const storedvalue = localstorage.getitem("userid");
       if (storedValue) {
         setUid(storedValue);
       }
@@ -100,90 +99,26 @@ export default function Home() {
           Get your Fitness information the Right way , the FitraX way
         </h1>
       </div>
-      <div className="flex flex-wrap justify-center items-center m-3">
-        <div className="max-w-full w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-          <a href="/exerciseView">
-            <img
-              className="rounded-t-lg"
-              src="/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
-          <div className="p-5">
-            <a href="#" className="">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-                Duration *Mins
-              </h5>
-            </a>
+      <ViewChartComponent
+        title="Duration *Mins"
+        chartData={durchartData}
+        minmax={{min:0,max:100}}
+        color="rgba(214,151,255,0.5)"
+      />
 
-            <Radar
-              options={{
-                backgroundColor: "rgba(214,151,255,0.5)",
-                borderColor: "rgba(214,151,255,1)",
-                scale: { max: 100, min: 0 },
-              }}
-              data={durchartData}
-            />
+      <ViewChartComponent
+        title="Distance *Kms"
+        chartData={distchartData}
+        minmax={{min:0,max:20}}
+        color="rgba(105,208,214,0.5)"
+      />
 
-
-          </div>
-        </div>
-        <div className="max-w-xl w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-          <a href="/exerciseView">
-            <img
-              className="rounded-t-lg"
-              src="/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
-          <div className="p-5">
-            <a href="#" className="">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-                Distance *Kms
-              </h5>
-            </a>
-
-            <Radar
-              options={{
-                backgroundColor: "rgba(105,208,214,0.5)",
-                borderColor: "rgba(105,208,214,1)",
-                scale: { max: 20, min: 0 },
-              }}
-              data={distchartData}
-            />
-
-
-          </div>
-        </div>
-        <div className="max-w-full w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-          <a href="/exerciseView">
-            <img
-              className="rounded-t-lg"
-              src="/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
-          <div className="p-5">
-            <a href="#" className="">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-                Calories *Kcal
-              </h5>
-            </a>
-
-            <Radar
-              options={{
-                backgroundColor: "rgba(230,133,92,0.5)",
-                borderColor: "rgba(230,133,92,1)",
-                scale: { max: 700, min: 0 },
-                chartColor: "rgba(0,0,0,1)",
-              }}
-              data={calchartData}
-            />
-
-            
-          </div>
-        </div>
-      </div>
+      <ViewChartComponent
+        title="Calories *Kcal"
+        chartData={calchartData}
+        minmax={{min:0,max:700}}
+        color="rgba(230,133,92,0.5)"
+      />
     </>
   );
 }

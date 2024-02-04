@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import axios from "axios";
-
+import ChartComponent from "./components/ChartComponent";
 import { Chart } from "chart.js/auto";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import { useState, useEffect } from "react";
@@ -121,8 +121,14 @@ export default function Home() {
     fetchData();
   }, []);
   useEffect(() => {
-    fetchWorkoutData();
-  }, []);
+    fetchData();
+    const timer = setTimeout(() => {
+       fetchWorkoutData();
+    }, 20);
+   
+    // Clear the timeout if the component unmounts
+    return () => clearTimeout(timer);
+   }, []);
   function normalizeData(data) {
     const normalizedData = [];
     const minMaxValues = {};
@@ -155,87 +161,25 @@ export default function Home() {
     return normalizedData;
   }
   return (
-    <div className="flex flex-wrap justify-center items-center my-5 h-screen">
-      <div className=" max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-        <a href="/exerciseview">
-          <img
-            className="rounded-t-lg"
-            src="/docs/images/blog/image-1.jpg"
-            alt=""
-          />
-        </a>
-        <div className="p-5">
-          <a href="/exerciseview" className="hover:text-blue-500">
-            <h5 className="hover:bg-gray-200 underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-              Exercise charts
-            </h5>
-          </a>
+  <div className="flex flex-wrap justify-center items-center m-4">
+    <ChartComponent
+ imageSrc="/docs/images/blog/image-1.jpg"
+ chartTitle="Exercise charts"
+ chartData={chartData}
+ linkUrl="/exerciseview"
+ addUrl="/exercises"
+ svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+ buttonText="Add more"
+/>
 
-          <Radar options={{}} data={chartData} />
-
-          <a
-            href="/exercises"
-            className="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Add more
-            <svg
-              className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </a>
-        </div>
-      </div>
-      <div className=" max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-        <a href="/workoutview">
-          <img
-            className="rounded-t-lg"
-            src="/docs/images/blog/image-1.jpg"
-            alt=""
-          />
-        </a>
-        <div className="p-5">
-          <a href="/workoutview" className="hover:text-blue-500">
-            <h5 className="hover:bg-gray-200 underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-              Workout charts
-            </h5>
-          </a>
-
-          <Radar options={{}} data={workoutChartData} />
-
-          <a
-            href="/workouts"
-            className="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Add more
-            <svg
-              className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  );
+<ChartComponent
+ imageSrc="/docs/images/blog/image-1.jpg"
+ chartTitle="Workout charts"
+ chartData={workoutChartData}
+ linkUrl="/workoutview"
+ addUrl="/workouts"
+ svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+ buttonText="Add more"
+/>
+  </div>);
 }
