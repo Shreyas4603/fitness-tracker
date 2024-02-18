@@ -1,8 +1,16 @@
-import React from 'react';
+import React from "react";
 import { Chart } from "chart.js/auto";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
-const ChartComponent = ({ imageSrc, chartTitle, chartData, linkUrl,addUrl, svgPath, buttonText }) => (
- <div className="max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+const ChartComponent = ({
+  imageSrc,
+  chartTitle,
+  chartData,
+  linkUrl,
+  addUrl,
+  svgPath,
+  buttonText,
+}) => (
+  <div className="bg-gradient-to-b from-gray-300 to-amber-200 max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
     <a href={linkUrl}>
       <img className="rounded-t-lg" src={imageSrc} alt="" />
     </a>
@@ -13,7 +21,16 @@ const ChartComponent = ({ imageSrc, chartTitle, chartData, linkUrl,addUrl, svgPa
         </h5>
       </a>
 
-      <Radar options={{}} data={chartData} />
+      <Radar
+        options={{
+          defaults: {
+            global: {
+              defaultFontColor: "#000000", // Set the color to black or any other dark color
+            },
+          },
+        }}
+        data={chartData}
+      />
 
       <a
         href={addUrl}
@@ -37,7 +54,7 @@ const ChartComponent = ({ imageSrc, chartTitle, chartData, linkUrl,addUrl, svgPa
         </svg>
       </a>
     </div>
- </div>
+  </div>
 );
 
 export default ChartComponent;
