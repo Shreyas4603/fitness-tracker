@@ -32,7 +32,3 @@ This is  the Fitness Tracker project.
 6. ### Run Frontend:
    ```bash
    npm run dev
-
-
-
-   
