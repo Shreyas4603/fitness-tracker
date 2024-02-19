@@ -1,10 +1,13 @@
 "use client";
 import image from "next/image";
+
+import { Chart } from "chart.js/auto";
+import { Radar } from 'react-chartjs-2';
 import ViewChartComponent from "../components/ViewChartComponent";
 import axios from "axios";
-import { usestate, useeffect } from "react";
+import { useState, useEffect } from "react";
 export default function home() {
-  const [durchartdata, setdurchartdata] = usestate({
+  const [durchartData, setdurchartdata] = useState({
     labels: ["exercise 1", "exercise 2", "exercise 3"],
     datasets: [
       {
@@ -13,7 +16,7 @@ export default function home() {
       },
     ],
   });
-  const [distchartdata, setdistchartdata] = usestate({
+  const [distchartData, setdistchartdata] = useState({
     labels: ["exercise 1", "exercise 2", "exercise 3"],
     datasets: [
       {
@@ -22,7 +25,7 @@ export default function home() {
       },
     ],
   });
-  const [calchartdata, setcalchartdata] = usestate({
+  const [calchartData, setcalchartdata] = useState({
     labels: ["exercise 1", "exercise 2", "exercise 3"],
     datasets: [
       {
@@ -31,20 +34,20 @@ export default function home() {
       },
     ],
   });
-  const [uid, setuid] = usestate("");
-  const fetchdata = async () => {
+  const [uid, setuid] = useState("");
+  const fetchData = async () => {
     try {
       // replace 'api_endpoint' with the actual endpoint of your api
       let apistr =
         "http://127.0.0.1:8000/api/exercise/getall/" +
-        localstorage.getitem("userid");
+        localStorage.getItem("UserID");
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(localstorage.getitem("userid"));
-      if (array.isarray(data) && data.length > 0) {
+      console.log(localStorage.getItem("UserID"), response.data);
+      if (Array.isArray(data) && data.length > 0) {
         const newdurationdata = {
-          labels: data.map((exercise) => exercise.exercisename || ""),
+          labels: data.map((exercise) => exercise.exerciseName || ""),
           datasets: [
             {
               label: "duration",
@@ -53,7 +56,7 @@ export default function home() {
           ],
         };
         const newdistancedata = {
-          labels: data.map((exercise) => exercise.exercisename || ""),
+          labels: data.map((exercise) => exercise.exerciseName || ""),
           datasets: [
             {
               label: "distance",
@@ -62,7 +65,7 @@ export default function home() {
           ],
         };
         const newcaloriesdata = {
-          labels: data.map((exercise) => exercise.exercisename || ""),
+          labels: data.map((exercise) => exercise.exerciseName || ""),
           datasets: [
             {
               label: "calories",
@@ -82,7 +85,7 @@ export default function home() {
   };
   const loadfromlocalstorage = () => {
     if (typeof window !== "undefined") {
-      const storedvalue = localstorage.getitem("userid");
+      const storedvalue = localStorage.getitem("userid");
       if (storedValue) {
         setUid(storedValue);
       }
@@ -99,26 +102,90 @@ export default function home() {
           Get your Fitness information the Right way , the FitraX way
         </h1>
       </div>
-      <ViewChartComponent
-        title="Duration *Mins"
-        chartData={durchartData}
-        minmax={{min:0,max:100}}
-        color="rgba(214,151,255,0.5)"
-      />
+      <div className="flex flex-wrap justify-center items-center m-3">
+      <div className="max-w-full w-128 mx-5 my-2 bg-gradient-to-b from-gray-300 to-amber-200 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+          <a href="/exerciseView">
+            <img
+              className="rounded-t-lg"
+              src="/docs/images/blog/image-1.jpg"
+              alt=""
+            />
+          </a>
+          <div className="p-5">
+            <a href="#" className="">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+                Duration *Mins
+              </h5>
+            </a>
 
-      <ViewChartComponent
-        title="Distance *Kms"
-        chartData={distchartData}
-        minmax={{min:0,max:20}}
-        color="rgba(105,208,214,0.5)"
-      />
+            <Radar
+              options={{
+                backgroundColor: "rgba(214,151,255,0.5)",
+                borderColor: "rgba(214,151,255,1)",
+                scale: { max: 100, min: 0 },
+              }}
+              data={durchartData}
+            />
 
-      <ViewChartComponent
-        title="Calories *Kcal"
-        chartData={calchartData}
-        minmax={{min:0,max:700}}
-        color="rgba(230,133,92,0.5)"
-      />
+
+          </div>
+        </div>
+        <div className="max-w-xl w-128 mx-5 my-2 bg-gradient-to-b from-gray-300 to-amber-200 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+          <a href="/exerciseView">
+            <img
+              className="rounded-t-lg"
+              src="/docs/images/blog/image-1.jpg"
+              alt=""
+            />
+          </a>
+          <div className="p-5">
+            <a href="#" className="">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+                Distance *Kms
+              </h5>
+            </a>
+
+            <Radar
+              options={{
+                backgroundColor: "rgba(105,208,214,0.5)",
+                borderColor: "rgba(105,208,214,1)",
+                scale: { max: 20, min: 0 },
+              }}
+              data={distchartData}
+            />
+
+
+          </div>
+        </div>
+        <div className="max-w-full w-128 mx-5 my-2 bg-gradient-to-b from-gray-300 to-amber-200 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+          <a href="/exerciseView">
+            <img
+              className="rounded-t-lg"
+              src="/docs/images/blog/image-1.jpg"
+              alt=""
+            />
+          </a>
+          <div className="p-5">
+            <a href="#" className="">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+                Calories *Kcal
+              </h5>
+            </a>
+
+            <Radar
+              options={{
+                backgroundColor: "rgba(230,133,92,0.5)",
+                borderColor: "rgba(230,133,92,1)",
+                scale: { max: 700, min: 0 },
+                chartColor: "rgba(0,0,0,1)",
+              }}
+              data={calchartData}
+            />
+
+            
+          </div>
+        </div>
+      </div>
     </>
   );
 }

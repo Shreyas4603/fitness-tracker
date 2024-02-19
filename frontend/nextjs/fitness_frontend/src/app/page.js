@@ -5,6 +5,7 @@ import ChartComponent from "./components/ChartComponent";
 import { Chart } from "chart.js/auto";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import { useState, useEffect } from "react";
+import LineChartComponent from "./components/LineChartComponent";
 export default function Home() {
   const [chartData, setChartData] = useState({
     labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
@@ -36,8 +37,27 @@ export default function Home() {
       },
     ],
   });
-  const [uid, setUid] = useState("");
-  const fetchData = async () => {
+  const [weightchartData, setWeightChartData] = useState({
+    labels: ["2024-08-08", "2024-08-09", "2024-08-10"],
+    datasets: [
+      {
+        label: "weight",
+        data: [100, 101, 100],
+      },
+    ],
+  });
+  const [heightchartData, setHeightChartData] = useState({
+    labels: ["2024-08-08", "2024-08-09", "2024-08-10"],
+    datasets: [
+      {
+        label: "height",
+        data: [100, 101, 100],
+      },
+    ],
+  });
+  const [latestWeight, setLatestWeight] = useState(null);
+  const [latestHeight, setLatestHeight] = useState(null);
+  async function fetchData() {
     try {
       // Replace 'API_ENDPOINT' with the actual endpoint of your API
       let apistr =
@@ -74,8 +94,8 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-  const fetchWorkoutData = async () => {
+  }
+  async function fetchWorkoutData() {
     try {
       // Replace 'API_ENDPOINT' with the actual endpoint of your API
       let apistr =
@@ -108,27 +128,82 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-  const loadFromLocalStorage = () => {
-    if (typeof window !== "undefined") {
-      const storedValue = localStorage.getItem("UserID");
-      if (storedValue) {
-        setUid(storedValue);
+  }
+  async function fetchWeightData() {
+    try {
+      // Replace 'API_ENDPOINT' with the actual endpoint of your API
+      let apistr =
+        "http://127.0.0.1:8000/api/parameter/getall/" +
+        localStorage.getItem("UserID");
+      const response = await axios.get(apistr);
+      const data = response.data;
+
+      console.log(data);
+      const sortedData = data.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      if (Array.isArray(data) && data.length > 0) {
+        const newData = {
+          labels: sortedData.map((params) => params.date || ""),
+          datasets: [
+            {
+              label: "weight",
+              data: sortedData.map((params) => params.weight || 0),
+            },
+          ],
+        };
+        const newData2 = {
+          labels: sortedData.map((params) => params.date || ""),
+          datasets: [
+            {
+              label: "height",
+              data: sortedData.map((params) => params.height || 0),
+            },
+          ],
+        };
+
+        setWeightChartData(newData);
+        setHeightChartData(newData2);
+      } else {
+        console.error("Invalid data format or empty array:", data);
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  }
+  async function fetchLatestData() {
+    try {
+      // Replace 'API_ENDPOINT' with the actual endpoint of your API
+      let apistr =
+        "http://127.0.0.1:8000/api/parameter/getlatest/" +
+        localStorage.getItem("UserID");
+      const response = await axios.get(apistr);
+      const data = response.data;
+
+      console.log(data, "latest data");
+      setLatestWeight(data.weight);
+      setLatestHeight(data.height);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
   useEffect(() => {
     fetchData();
     const timer = setTimeout(() => {
-       fetchWorkoutData();
+      fetchWorkoutData();
     }, 20);
-   
-    // Clear the timeout if the component unmounts
-    return () => clearTimeout(timer);
-   }, []);
+    const timer2 = setTimeout(() => {
+      fetchWeightData();
+    }, 40);
+    const timer3 = setTimeout(() => {
+      fetchLatestData();
+    }, 60);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  }, []);
   function normalizeData(data) {
     const normalizedData = [];
     const minMaxValues = {};
@@ -161,25 +236,77 @@ export default function Home() {
     return normalizedData;
   }
   return (
-  <div className="flex flex-wrap justify-center items-center m-4">
-    <ChartComponent
- imageSrc="/docs/images/blog/image-1.jpg"
- chartTitle="Exercise charts"
- chartData={chartData}
- linkUrl="/exerciseview"
- addUrl="/exercises"
- svgPath="M1 5h12m0 0L9 1m4 4L9 9"
- buttonText="Add more"
-/>
+    <>
+      <div className="flex flex-row m-2 justify-center">
+        <div className="flex flex-wrap justify-center items-center m-6">
+          <LineChartComponent
+            imageSrc="/docs/images/blog/image-1.jpg"
+            chartTitle="Weight chart"
+            chartData={weightchartData}
+            linkUrl="/user-statistics"
+            addUrl="/parameters"
+            svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+            buttonText="Add more"
+            color={"rgba(105,108,214,1)"}
+          />
+          <LineChartComponent
+            imageSrc="/docs/images/blog/image-1.jpg"
+            chartTitle="Height chart"
+            chartData={heightchartData}
+            linkUrl="/user-statistics"
+            addUrl="/parameters"
+            svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+            buttonText="Add more"
+            color={"rgba(105,208,114,1)"}
+          />
+        </div>
+        <div className="flex flex-col justify-center items-end  space-y-4">
+          {/* Weight Circle */}
+          <div className="bg-gradient-to-b from-gray-300 to-amber-200 w-24 h-24 bg-white rounded-full flex items-center justify-center relative">
+            <span className="text-2xl font-bold">{latestWeight}</span>
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-300 rounded-full px-2 py-1 text-xs font-semibold">
+              Weight
+            </span>
+          </div>
+          {/* Height Circle */}
+          <div className="bg-gradient-to-b from-gray-300 to-amber-200 w-24 h-24 bg-white rounded-full flex items-center justify-center relative">
+            <span className="text-2xl font-bold">{latestHeight}</span>
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-300 rounded-full px-2 py-1 text-xs font-semibold">
+              Height
+            </span>
+          </div>
 
-<ChartComponent
- imageSrc="/docs/images/blog/image-1.jpg"
- chartTitle="Workout charts"
- chartData={workoutChartData}
- linkUrl="/workoutview"
- addUrl="/workouts"
- svgPath="M1 5h12m0 0L9 1m4 4L9 9"
- buttonText="Add more"
-/>
-  </div>);
+          <a
+            href="/user-statistics"
+            className="inline-flex relative justify-center items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+            // Set task to  0 for Add
+          >
+            Edit Stats
+          </a>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-center items-center">
+        <ChartComponent
+          imageSrc="/docs/images/blog/image-1.jpg"
+          chartTitle="Exercise charts"
+          chartData={chartData}
+          linkUrl="/exerciseview"
+          addUrl="/exercises"
+          svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+          buttonText="Add more"
+        />
+
+        <ChartComponent
+          imageSrc="/docs/images/blog/image-1.jpg"
+          chartTitle="Workout charts"
+          chartData={workoutChartData}
+          linkUrl="/workoutview"
+          addUrl="/workouts"
+          svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+          buttonText="Add more"
+        />
+      </div>
+    </>
+  );
 }

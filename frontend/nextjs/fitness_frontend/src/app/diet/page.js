@@ -1,18 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Checkbox } from "flowbite-react";
-
 function page() {
   const [apiData, setapiData] = useState([]);
   const [task, setTask] = useState(null);
   const [editingRowId, setEditingRowId] = useState(null);
   const [editingRowName, setEditingRowName] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [award, setAward] = useState(false);
 
-  const [reps, setReps] = useState("");
-  const [weight, setWeight] = useState("");
+  const [protein, setProtein] = useState("");
+  const [calories, setCalories] = useState("");
   const [date, setDate] = useState("");
   const handleSubmit2 = async (event) => {
     event.preventDefault();
@@ -24,35 +21,35 @@ function page() {
 
     switch (task) {
       case 0: // Add
-        url = "http://127.0.0.1:8000/api/workout/add";
+        url = "http://127.0.0.1:8000/api/diet/add";
         method = "POST";
         myForm = {
           userid: localStorage.getItem("UserID"),
-          workoutName: formObject.workoutName,
-          reps: formObject.reps,
-          weight: formObject.weight,
+          mealType: formObject.mealType,
+          protein: formObject.protein,
+          calories: formObject.calories,
           date: formObject.date,
-          achievement: false,
+         
         };
         break;
       case 1: // Update
-        url = "http://127.0.0.1:8000/api/workout/update";
+        url = "http://127.0.0.1:8000/api/diet/update";
         method = "PUT";
         myForm = {
-          workoutId: await fetchWorkoutID(formObject.workoutName),
-          workoutName: formObject.workoutName,
-          reps: formObject.reps,
-          weight: formObject.weight,
-          date: formObject.date,
-          achievement: false,
+            dietId:await fetchDietId(formObject.mealType, formObject.date),
+            mealType: formObject.mealType,
+            protein: formObject.protein,
+            calories: formObject.calories,
+            date: formObject.date,
+        
         };
         console.log(myForm);
         break;
       case 2: // Delete
-        url = "http://127.0.0.1:8000/api/workout/delete";
+        url = "http://127.0.0.1:8000/api/diet/delete";
         method = "DELETE";
         myForm = {
-          workoutId: await fetchWorkoutID(formObject.workoutName),
+            dietId:await fetchDietId(formObject.mealType, formObject.date),
         };
         break;
       default:
@@ -83,204 +80,43 @@ function page() {
     }
   };
 
-  // async function handleSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-
-  //   // Convert form data to an object
-  //   const formObject = Object.fromEntries(formData.entries());
-  //   console.log(JSON.stringify(formObject));
-  //   const myForm = {
-  //     userid: localStorage.getItem("UserID"),
-  //     workoutName: formObject.workoutName,
-  //     reps: formObject.reps,
-  //     weight: formObject.weight,
-  //     date: formObject.date,
-  //     achievement: false,
-  //   };
-  //   console.log(myForm);
-  //   // Post the form data to your API route using Axios
-  //   try {
-  //     const response = await axios
-  //       .post("http://127.0.0.1:8000/api/workout/add", myForm, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           console.log(error.response.data);
-  //           console.log(error.response.status);
-  //           console.log(error.response.headers);
-  //         } else if (error.request) {
-  //           console.log(error.request);
-  //         } else {
-  //           console.log("Error", error.message);
-  //         }
-  //         console.log(error.config);
-  //       });
-
-  //     console.log(myForm, "hoiiii");
-
-  //     if (!response.data) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     console.log(response.data);
-  //     //router.replace("/");
-  //     // Handle the response data
-  //     console.log(response.data, "helloooo");
-  //   } catch (error) {
-  //     console.error(
-  //       "There was a problem with the fetch operation:",
-  //       error.message
-  //     );
-  //   }
-  // }
-
-  // async function handleUpdateSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-
-  //   // Convert form data to an object
-  //   const formObject = Object.fromEntries(formData.entries());
-  //   console.log(JSON.stringify(formObject), "updated");
-
-  //   const myForm = {
-  //     workoutId: await fetchWorkoutID(formObject.workoutName),
-  //     workoutName: formObject.workoutName,
-  //     reps: formObject.reps,
-  //     weight: formObject.weight,
-  //     date: formObject.date,
-  //     achievement: false,
-  //   };
-  //   console.log(myForm, "updated");
-  //   // Post the form data to your API route using Axios
-
-  //   try {
-  //     const response = await axios.put(
-  //       "http://127.0.0.1:8000/api/workout/update",
-  //       myForm,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     //console.log(myForm,"hoiiii");
-
-  //     if (!response.data) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     console.log(response.data);
-  //     //router.replace("/");
-  //     // Handle the response data
-  //     console.log(response.data, "helloooo");
-  //   } catch (error) {
-  //     console.error(
-  //       "There was a problem with the fetch operation:",
-  //       error.message
-  //     );
-  //   }
-  // }
-
-  // async function handleDeleteSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-
-  //   // Convert form data to an object
-  //   const formObject = Object.fromEntries(formData.entries());
-  //   console.log(JSON.stringify(formObject), "deleteLog");
-
-  //   const myForm = {
-  //     workoutId: await fetchWorkoutID(formObject.workoutName),
-  //   };
-  //   console.log(myForm, "deleting");
-  //   // Post the form data to your API route using Axios
-
-  //   try {
-  //     const response = await axios
-  //       .delete(
-  //         "http://127.0.0.1:8000/api/workout/delete",
-  //         { data: myForm },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       )
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           console.log(error.response.data);
-  //           console.log(error.response.status);
-  //           console.log(error.response.headers);
-  //         } else if (error.request) {
-  //           console.log(error.request);
-  //         } else {
-  //           console.log("Error", error.message);
-  //         }
-  //         console.log(error.config);
-  //       });
-
-  //     console.log(response, "hoiiii");
-
-  //     if (!response.data) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     console.log(response.data);
-  //     //router.replace("/");
-  //     // Handle the response data
-  //     console.log(response.data, "helloooo");
-  //   } catch (error) {
-  //     console.error(
-  //       "There was a problem with the fetch operation:",
-  //       error.message
-  //     );
-  //   }
-  // }
-  const fetchWorkoutID = async (WorkoutName) => {
+  const fetchDietId = async (mealType, date) => {
     try {
-      // Replace 'API_ENDPOINT' with the actual endpoint of your API
-      let apistr =
-        "http://127.0.0.1:8000/api/workout/getall/" +
-        localStorage.getItem("UserID");
-      const response = await axios.get(apistr);
+      // Replace 'DIET_API_ENDPOINT' with the actual endpoint of your Diet API
+      let apiUrl = "http://127.0.0.1:8000/api/diet/getall/"+localStorage.getItem("UserID")
+      const response = await axios.get(apiUrl);
       const data = response.data;
-      function searchWorkoutIdByName(WorkoutName) {
-        for (const Workout of data) {
-          if (Workout.workoutName.toLowerCase() === WorkoutName.toLowerCase()) {
-            return Workout.workoutId;
+  
+      function searchDietIdByMealAndDate(mealType, date) {
+        for (const diet of data) {
+          if (diet.mealType.toLowerCase() === mealType.toLowerCase() && diet.date === date) {
+            return diet.dietId;
           }
         }
-        return null; // Return null if WorkoutName is not found
+        return null; // Return null if the diet with the given meal type and date is not found
       }
-      console.log(searchWorkoutIdByName(WorkoutName));
-      return searchWorkoutIdByName(WorkoutName);
+  
+      console.log(searchDietIdByMealAndDate(mealType, date));
+      return searchDietIdByMealAndDate(mealType, date);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
   async function updateValues() {
     const myForm = {
-      workoutId: editingRowId,
-      workoutName: editingRowName,
-      reps: reps,
-      weight: weight,
+      dietId: editingRowId,
+      mealType: editingRowName,
+      protein: protein,
+      calories: calories,
       date: date,
-      achievement: award,
+    
     };
     console.log(myForm, "updated");
     // Post the form data to your API route using Axios
 
     try {
       const response = await axios.put(
-        "http://127.0.0.1:8000/api/workout/update",
+        "http://127.0.0.1:8000/api/diet/update",
         myForm,
         {
           headers: {
@@ -308,7 +144,7 @@ function page() {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/workout/getall/" +
+        "http://127.0.0.1:8000/api/diet/getall/" +
           localStorage.getItem("UserID")
       );
       const data = response.data;
@@ -328,65 +164,62 @@ function page() {
 
   return (
     <>
-      <div className="my-6 grid grid-cols-2 gap-4 mx-3">
+      <div className="grid grid-cols-2 gap-4 mx-3">
       <div className=" bg-gray-900 rounded-xl h-fit">
           <div className="relative overflow-x-auto rounded-xl">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Workout Name
+                    Meal Type
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Reps
+                    Protein
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Weight
+                    Calories
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Date
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    Acheievments
-                  </th>
-                  <th scope="col" className="px-6 py-3">Edits</th>
+                  <th scope="col" className="px-6 py-3"></th>
                 </tr>
               </thead>
               <tbody>
                 {apiData.map((item) => (
-                  <tr key={item.workoutId} className="dark:bg-gray-800 dark:text-gray-400">
-                    <th>{item.workoutName}</th>
+                  <tr key={item.dietId} className=" dark:bg-gray-800">
+                    <th>{item.mealType}</th>
                     <td>
-                      {editingRowId === item.workoutId ? (
+                      {editingRowId === item.dietId ? (
                         <input
-                          className="text-white placeholder-teal-100 bg-gray-700 caret-white"
-                          name="reps"
-                          placeholder={item.reps}
+                          className="text-white placeholder-yellow-300 bg-gray-700"
+                          name="protein"
+                          placeholder={item.protein}
                           onChange={(e) => {
-                            setReps(e.target.value);
+                            setProtein(e.target.value);
                           }}
                         />
                       ) : (
-                        item.reps
+                        item.protein
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      {editingRowId === item.workoutId ? (
+                      {editingRowId === item.dietId ? (
                         <input
-                          className="text-white placeholder-teal-100 bg-gray-700 caret-white"
-                          placeholder={item.weight}
+                          className="text-white placeholder-yellow-300 bg-gray-700"
+                          placeholder={item.calories}
                           onChange={(e) => {
-                            setWeight(e.target.value);
+                            setCalories(e.target.value);
                           }}
                         />
                       ) : (
-                        item.weight
+                        item.calories
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      {editingRowId === item.workoutId ? (
+                      {editingRowId === item.dietId ? (
                         <input
-                          className="text-white placeholder-teal-100 bg-gray-700 caret-white"
+                          className="text-white placeholder-yellow-300 bg-gray-700"
                           placeholder={item.date}
                           onChange={(e) => {
                             setDate(e.target.value);
@@ -396,23 +229,14 @@ function page() {
                         item.date
                       )}
                     </td>
-                    <td className="px-6 py-4">
-                      {editingRowId === item.workoutId ? (
-                        <Checkbox defaultChecked={item.achievement ===  1.0} onChange={(e)=>setAward(e.target.checked)} />
-                        
-                      ) : (
-                        <Checkbox disabled defaultChecked={item.achievement ===  1.0} />
-                      )}
-                    </td>
                     <td className="px-4 py-4">
                       <button
                         onClick={() => {
-                          setEditingRowId(item.workoutId);
-                          setEditingRowName(item.workoutName);
-                          setAward(item.achievement);
+                          setEditingRowId(item.dietId);
+                          setEditingRowName(item.mealType);
+                          setCalories(item.calories);
+                          setProtein(item.protein);
                           setDate(item.date);
-                          setReps(item.reps);
-                          setWeight(item.weight);
                           setIsEditing(true);
                         }}
                       >
@@ -453,14 +277,14 @@ function page() {
                       htmlFor="brand"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      workout Name
+                      Meal Type
                     </label>
                     <input
                       type="text"
-                      name="workoutName"
+                      name="mealType"
                       id="brand"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Workout Name"
+                      placeholder="meal type"
                       required=""
                     />
                   </div>
@@ -469,14 +293,15 @@ function page() {
                       htmlFor="price"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Reps Count
+                      Protein
                     </label>
                     <input
                       type="number"
-                      name="reps"
+                      name="protein"
+                      step="any"
                       id="price"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="30"
+                      placeholder="grams"
                       required=""
                     />
                   </div>
@@ -485,14 +310,15 @@ function page() {
                       htmlFor="price"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Weight in Kg's
+                      calories
                     </label>
                     <input
                       type="number"
-                      name="weight"
+                      name="calories"
+                      step="any"
                       id="price"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="type 0 if not applicable"
+                      placeholder="kcal"
                       required=""
                     />
                   </div>
@@ -519,21 +345,21 @@ function page() {
                   className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                   onClick={() => setTask(0)} // Set task to  0 for Add
                 >
-                  Add workout
+                  Add meal
                 </button>
                 <button
                   type="submit"
                   className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                   onClick={() => setTask(1)} // Set task to  1 for Update
                 >
-                  Update workout
+                  Update meal
                 </button>
                 <button
                   type="submit"
                   className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                   onClick={() => setTask(2)} // Set task to  2 for Delete
                 >
-                  Delete workout
+                  Delete meal
                 </button>
               </form>
             </div>
