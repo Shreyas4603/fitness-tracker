@@ -27,7 +27,7 @@ This is  the Fitness Tracker project.
 
 5. ### Navigate Frontend:
    ```bash
-   cd/frontend/nextjs/fitness_frontend
+   cd frontend/nextjs/fitness_frontend
    
 6. ### Run Frontend:
    ```bash
