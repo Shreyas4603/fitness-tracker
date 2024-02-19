@@ -24,3 +24,14 @@ This is  the Fitness Tracker project.
 4. ### Run server:
    ```bash
    uvicorn server:app --reload
+
+5. ### Navigate Frontend:
+   ```bash
+   cd/frontend/nextjs/fitness_front_end
+   
+6. ### Run Frontend:
+npm run dev
+
+
+
+   

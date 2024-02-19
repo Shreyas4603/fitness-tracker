@@ -14,16 +14,16 @@ EXERCISE_URL = "/api/exercise"
 class Exercise(BaseModel):
     userId: str
     exerciseName: str
-    duration: str
-    distance: str
+    duration: float
+    distance: float
     calories: float
     achievement: bool
 
 
 class UpdateExcercise(BaseModel):
     exerciseName: str
-    duration: str
-    distance: str
+    duration: float
+    distance: float
     calories: float
     achievement: bool
     exerciseId: str
@@ -39,8 +39,8 @@ def addExercise(exercise: Exercise):
     try:
         cur.execute(
             f"INSERT INTO exercises (exerciseId, userId, exerciseName, duration, distance, calories, achievement, created_at, updated_at) "
-            f'VALUES ("{exerciseId}", "{exercise.userId}", "{exercise.exerciseName}", "{exercise.duration}", '
-            f'"{exercise.distance}", {exercise.calories}, {int(exercise.achievement)}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
+            f'VALUES ("{exerciseId}", "{exercise.userId}", "{exercise.exerciseName}", {exercise.duration}, '
+            f'{exercise.distance}, {exercise.calories}, {int(exercise.achievement)}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
         )
         db.myconn.commit()
         return {"data": exerciseId}
@@ -54,7 +54,7 @@ def updateExercise(body: UpdateExcercise):
     print(int(body.achievement))
     try:
         cur.execute(
-            f'UPDATE exercises SET exerciseName = "{body.exerciseName}", duration = "{body.duration}", distance = "{body.distance}",calories="{body.calories}", achievement="{int(body.achievement)}" ,updated_at=CURRENT_TIMESTAMP  WHERE exerciseId = "{body.exerciseId}";'
+            f'UPDATE exercises SET exerciseName = "{body.exerciseName}", duration = {body.duration}, distance = {body.distance},calories="{body.calories}", achievement="{int(body.achievement)}" ,updated_at=CURRENT_TIMESTAMP  WHERE exerciseId = "{body.exerciseId}";'
         )
         db.myconn.commit()
         return {"message": "Excercise updated successfully"}
