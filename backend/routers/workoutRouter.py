@@ -35,7 +35,7 @@ def addWorkout(body: Workout):
     workoutId = str(uuid.uuid4())
     try:
         db.cur.execute(
-            f'INSERT into workouts values ("{workoutId}","{body.userid}","{body.workoutName}",{body.reps},{body.weight},"{body.date}",{body.achievement}) ;'
+            f'INSERT into workouts values ("{workoutId}","{body.userid}","{body.workoutName}",{body.reps},{body.weight},"{body.date}",{body.achievement} ,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ;'
         )
         db.myconn.commit()
         return {"data": workoutId}
@@ -47,7 +47,7 @@ def addWorkout(body: Workout):
 def updateWorkout(body: UpdateWorkout):
     try:
         db.cur.execute(
-            f'UPDATE workouts SET workoutName = "{body.workoutName}", reps = {body.reps}, weight = {body.weight}, date = "{body.date}", achievement = {body.achievement} WHERE workoutId = "{body.workoutId}";'
+            f'UPDATE workouts SET workoutName = "{body.workoutName}", reps = {body.reps}, weight = {body.weight}, date = "{body.date}", achievement = {body.achievement} ,updated_at=CURRENT_TIMESTAMP WHERE workoutId = "{body.workoutId}";'
         )
         db.myconn.commit()
         return {"message": "Workout updated successfully"}

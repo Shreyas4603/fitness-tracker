@@ -2,7 +2,9 @@
 
 This is  the Fitness Tracker project.
 
+## Run Triggers first
 
+### Go to triggers.py in backend folder > Copy create trigger > Paste & run in MySQL Shell
 
 
 ## Installation

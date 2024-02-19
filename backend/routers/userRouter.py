@@ -69,7 +69,7 @@ def userRegister(body:registerCreds):
 
     cur.execute(f'SELECT userId FROM users where userName="{body.name}" or email="{body.email}" ; ' )
     data = cur.fetchone()
-    
+     
     if data:
         raise HTTPException(status_code=400, detail="Username already exists")
 
@@ -86,7 +86,7 @@ def userRegister(body:registerCreds):
 
 
     else:
-        cur.execute(f'INSERT into users values ("{user_uuid}","{body.name}","{body.email}","{generatePassword(body.password).decode("utf-8")}","{body.gender}") ;' )
+        cur.execute(f'INSERT into users (userId, userName, email, password, gender, created_at, updated_at) values ("{user_uuid}","{body.name}","{body.email}","{generatePassword(body.password).decode("utf-8")}","{body.gender}", NOW(), NOW()) ;' )
         db.myconn.commit()
         return({"data": user_uuid})
     
