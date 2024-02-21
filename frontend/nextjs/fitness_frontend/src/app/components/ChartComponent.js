@@ -10,7 +10,7 @@ const ChartComponent = ({
   svgPath,
   buttonText,
 }) => (
-  <div className="bg-gradient-to-b from-gray-300 to-amber-200 max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+  <div className="max-w-4xl w-128 m-5 bg-blue-500 border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-gray-400">
     <a href={linkUrl}>
       <img className="rounded-t-lg" src={imageSrc} alt="" />
     </a>

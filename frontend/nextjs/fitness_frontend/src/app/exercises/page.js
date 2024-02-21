@@ -27,7 +27,7 @@ function page() {
         method = "POST";
         myForm = {
           userId: localStorage.getItem("UserID"),
-          exerciseName: formObject.excerciseName,
+          exerciseName: formObject.exerciseName,
           duration: formObject.duration,
           distance: formObject.distance,
           calories: formObject.calories,
@@ -38,8 +38,8 @@ function page() {
         url = "http://127.0.0.1:8000/api/exercise/update";
         method = "PUT";
         myForm = {
-          exerciseId: await fetchExerciseID(formObject.excerciseName),
-          exerciseName: formObject.excerciseName,
+          exerciseId: await fetchExerciseID(formObject.exerciseName),
+          exerciseName: formObject.exerciseName,
           duration: formObject.duration,
           distance: formObject.distance,
           calories: formObject.calories,
@@ -359,8 +359,8 @@ function page() {
               <tbody>
                 {apiData.map((item) => (
                   <tr key={item.exerciseId} className="dark:bg-gray-800 dark:text-gray-400">
-                    <th>{item.exerciseName}</th>
-                    <td>
+                    <th className="text-center">{item.exerciseName}</th>
+                    <td className=" text-center">
                       {editingRowId === item.exerciseId ? (
                         <input
                           className="text-white placeholder-teal-100 bg-gray-700 caret-white"

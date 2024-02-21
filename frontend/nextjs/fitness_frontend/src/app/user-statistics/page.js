@@ -207,7 +207,7 @@ function page() {
                     <td>
                       {editingRowId === item.parameterId ? (
                         <input
-                          className="text-white placeholder-yellow-100 bg-gray-700"
+                          className="text-white px-4 rounded-sm placeholder-yellow-100 bg-gray-700"
                           name="date"
                           placeholder={item.date}
                           onChange={(e) => {
