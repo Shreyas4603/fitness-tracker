@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { deleteData,putData,postData } from "../../../utils/apiCall";
+import { deleteData, putData, postData } from "../../../utils/apiCall";
 
 function Page() {
   const [apiData, setApiData] = useState([]);
@@ -12,9 +12,6 @@ function Page() {
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
   const [date, setDate] = useState("");
-
-
-
 
   async function updateValues() {
     const myForm = {
@@ -60,37 +57,40 @@ function Page() {
     }
   };
 
-  const handleDelete=async(parameterId)=>{
-    const response=await deleteData("http://127.0.0.1:8000/api/parameter/delete",{parameterId: parameterId})
-    console.log(response)
-    if(response.message)
-    window.location.reload()
-  }
+  const handleDelete = async (parameterId) => {
+    const response = await deleteData(
+      "http://127.0.0.1:8000/api/parameter/delete",
+      { parameterId: parameterId }
+    );
+    console.log(response);
+    if (response.message) window.location.reload();
+  };
 
-  const handleAdd=async(event)=>{
+  const handleAdd = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formObject = Object.fromEntries(formData.entries());
 
     let myForm = formObject;
-    console.log(myForm)
-    const body={
+    console.log(myForm);
+    const body = {
       userId: localStorage.getItem("UserID"),
       weight: myForm.weight,
       height: myForm.height,
       date: myForm.date,
-    }
+    };
 
-    const {data,error}=await postData("http://127.0.0.1:8000/api/parameter/add",body)
-    console.log("new",data)
-    if(data){
-      window.location.reload()
+    const { data, error } = await postData(
+      "http://127.0.0.1:8000/api/parameter/add",
+      body
+    );
+    console.log("new", data);
+    if (data) {
+      window.location.reload();
+    } else {
+      console.log(error);
     }
-    else{
-      console.log(error)
-    }
-
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -100,9 +100,17 @@ function Page() {
   }, []);
 
   return (
-    <div className="bg-gray-950 w-full  h-[90vh]">
-      <div className="flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly  ">
-        <div className="  rounded-xl  xl:w-1/2 w-3/4 h-[85vh] overflow-auto ">
+    <div className="bg-gray-950 w-full  ">
+      <div
+        className={`flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly h-full${
+          isEditing ? "flex-col" : ""
+        }`}
+      >
+        <div
+          className={`  rounded-xl    overflow-auto ${
+            isEditing ? "w-full" : "w-3/4 max-h-[85vh]"
+          }`}
+        >
           <div className="relative overflow-x-auto rounded-xl">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
               <thead className=" text-gray-100 capitalize  font-bold dark:bg-gray-700 bg-red-800 ">
@@ -161,7 +169,7 @@ function Page() {
                         item.date
                       )}
                     </td>
-                    <td  className="border-r border-slate-600 border-t">
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.parameterId ? (
                         <input
                           className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
@@ -176,7 +184,7 @@ function Page() {
                         item.weight
                       )}
                     </td>
-                    <td  className="border-r border-slate-600 border-t">
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.parameterId ? (
                         <input
                           className=" rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
@@ -200,7 +208,7 @@ function Page() {
                           setHeight(item.height);
                           setIsEditing(true);
                         }}
-                        className="bg-blue-500 px-6 py-1 rounded text-white"
+                        className="bg-blue-600 px-6 py-1 rounded text-white hover:bg-blue-700"
                       >
                         Edit
                       </button>
@@ -208,10 +216,9 @@ function Page() {
                     <td className=" border-slate-600 border-t p-4 ">
                       <button
                         onClick={() => {
-                          handleDelete(item.parameterId)
-   
+                          handleDelete(item.parameterId);
                         }}
-                        className="bg-red-500 px-6 py-1 rounded text-white"
+                        className="bg-red-600 px-6 py-1 rounded text-white hover:bg-red-700"
                       >
                         Delete
                       </button>
@@ -222,7 +229,7 @@ function Page() {
             </table>
           </div>
           {isEditing === true ? (
-            <div className="  p-4 flex items-center gap-4">
+            <div className="  p-2 flex items-center gap-4">
               <button
                 className=" text-sm font-medium px-4 py-2 text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                 onClick={() => {
@@ -235,7 +242,7 @@ function Page() {
               </button>
 
               <button
-              className="text-red-500"
+                className="text-red-500"
                 onClick={() => {
                   setEditingRowId();
                   setDate();
@@ -252,14 +259,14 @@ function Page() {
           )}
         </div>
 
-        <div className=" w-1/3">
+        <div className={`w-1/3 ${isEditing ? " hidden " : " block "} `}>
           <section className="bg-white dark:bg-gray-900 rounded-xl">
             <div className="pb-5 px-4 pt-3  rounded-md  w-full flex flex-col items-start ">
               <h2 className="mb-4 text-xl font-bold   text-center w-full dark:text-white">
                 Add a new Parameter
               </h2>
               <form
-                onSubmit={handleAdd }
+                onSubmit={handleAdd}
                 action="#"
                 className="flex flex-col w-full justify-center"
               >
@@ -314,24 +321,14 @@ function Page() {
                     />
                   </div>
                 </div>
-                <div className="   my-5">
+                <div className="mt-5">
                   <button
                     type="submit"
                     className="w-full px-3 py-2    font-bold  text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-green-400"
-                    
                   >
                     Add
                   </button>
-
                 </div>
-                {/* 
-                <button
-                  type="submit"
-                  className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(1)}
-                >
-                  Update Parameter
-                </button> */}
               </form>
             </div>
           </section>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Checkbox } from "flowbite-react";
+import { deleteData, getData, postData, putData } from "../../../utils/apiCall";
 
 function page() {
   const [apiData, setapiData] = useState([]);
@@ -14,258 +15,16 @@ function page() {
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
   const [date, setDate] = useState("");
-  const handleSubmit2 = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formObject = Object.fromEntries(formData.entries());
 
-    let url, method;
-    let myForm = {};
-
-    switch (task) {
-      case 0: // Add
-        url = "http://127.0.0.1:8000/api/workout/add";
-        method = "POST";
-        myForm = {
-          userid: localStorage.getItem("UserID"),
-          workoutName: formObject.workoutName,
-          reps: formObject.reps,
-          weight: formObject.weight,
-          date: formObject.date,
-          achievement: false,
-        };
-        break;
-      case 1: // Update
-        url = "http://127.0.0.1:8000/api/workout/update";
-        method = "PUT";
-        myForm = {
-          workoutId: await fetchWorkoutID(formObject.workoutName),
-          workoutName: formObject.workoutName,
-          reps: formObject.reps,
-          weight: formObject.weight,
-          date: formObject.date,
-          achievement: false,
-        };
-        console.log(myForm);
-        break;
-      case 2: // Delete
-        url = "http://127.0.0.1:8000/api/workout/delete";
-        method = "DELETE";
-        myForm = {
-          workoutId: await fetchWorkoutID(formObject.workoutName),
-        };
-        break;
-      default:
-        throw new Error("Invalid task.");
-    }
-
-    try {
-      const response = await axios({
-        url,
-        method,
-        data: myForm,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      window.location.reload();
-      if (!response.data) {
-        throw new Error("Network response was not ok");
-      }
-      console.log(response.data);
-      // Handle the response data
-      console.log(response.data, "helloooo");
-    } catch (error) {
-      console.error(
-        "There was a problem with the fetch operation:",
-        error.message
-      );
-    }
+  const workoutUrl = {
+    post: "http://127.0.0.1:8000/api/workout/add",
+    put: "http://127.0.0.1:8000/api/workout/update",
+    delete: "http://127.0.0.1:8000/api/workout/delete",
+    get: `http://127.0.0.1:8000/api/workout/getall/${localStorage.getItem(
+      "UserID"
+    )}`,
   };
 
-  // async function handleSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-
-  //   // Convert form data to an object
-  //   const formObject = Object.fromEntries(formData.entries());
-  //   console.log(JSON.stringify(formObject));
-  //   const myForm = {
-  //     userid: localStorage.getItem("UserID"),
-  //     workoutName: formObject.workoutName,
-  //     reps: formObject.reps,
-  //     weight: formObject.weight,
-  //     date: formObject.date,
-  //     achievement: false,
-  //   };
-  //   console.log(myForm);
-  //   // Post the form data to your API route using Axios
-  //   try {
-  //     const response = await axios
-  //       .post("http://127.0.0.1:8000/api/workout/add", myForm, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           console.log(error.response.data);
-  //           console.log(error.response.status);
-  //           console.log(error.response.headers);
-  //         } else if (error.request) {
-  //           console.log(error.request);
-  //         } else {
-  //           console.log("Error", error.message);
-  //         }
-  //         console.log(error.config);
-  //       });
-
-  //     console.log(myForm, "hoiiii");
-
-  //     if (!response.data) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     console.log(response.data);
-  //     //router.replace("/");
-  //     // Handle the response data
-  //     console.log(response.data, "helloooo");
-  //   } catch (error) {
-  //     console.error(
-  //       "There was a problem with the fetch operation:",
-  //       error.message
-  //     );
-  //   }
-  // }
-
-  // async function handleUpdateSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-
-  //   // Convert form data to an object
-  //   const formObject = Object.fromEntries(formData.entries());
-  //   console.log(JSON.stringify(formObject), "updated");
-
-  //   const myForm = {
-  //     workoutId: await fetchWorkoutID(formObject.workoutName),
-  //     workoutName: formObject.workoutName,
-  //     reps: formObject.reps,
-  //     weight: formObject.weight,
-  //     date: formObject.date,
-  //     achievement: false,
-  //   };
-  //   console.log(myForm, "updated");
-  //   // Post the form data to your API route using Axios
-
-  //   try {
-  //     const response = await axios.put(
-  //       "http://127.0.0.1:8000/api/workout/update",
-  //       myForm,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     //console.log(myForm,"hoiiii");
-
-  //     if (!response.data) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     console.log(response.data);
-  //     //router.replace("/");
-  //     // Handle the response data
-  //     console.log(response.data, "helloooo");
-  //   } catch (error) {
-  //     console.error(
-  //       "There was a problem with the fetch operation:",
-  //       error.message
-  //     );
-  //   }
-  // }
-
-  // async function handleDeleteSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-
-  //   // Convert form data to an object
-  //   const formObject = Object.fromEntries(formData.entries());
-  //   console.log(JSON.stringify(formObject), "deleteLog");
-
-  //   const myForm = {
-  //     workoutId: await fetchWorkoutID(formObject.workoutName),
-  //   };
-  //   console.log(myForm, "deleting");
-  //   // Post the form data to your API route using Axios
-
-  //   try {
-  //     const response = await axios
-  //       .delete(
-  //         "http://127.0.0.1:8000/api/workout/delete",
-  //         { data: myForm },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       )
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           console.log(error.response.data);
-  //           console.log(error.response.status);
-  //           console.log(error.response.headers);
-  //         } else if (error.request) {
-  //           console.log(error.request);
-  //         } else {
-  //           console.log("Error", error.message);
-  //         }
-  //         console.log(error.config);
-  //       });
-
-  //     console.log(response, "hoiiii");
-
-  //     if (!response.data) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     console.log(response.data);
-  //     //router.replace("/");
-  //     // Handle the response data
-  //     console.log(response.data, "helloooo");
-  //   } catch (error) {
-  //     console.error(
-  //       "There was a problem with the fetch operation:",
-  //       error.message
-  //     );
-  //   }
-  // }
-  const fetchWorkoutID = async (WorkoutName) => {
-    try {
-      // Replace 'API_ENDPOINT' with the actual endpoint of your API
-      let apistr =
-        "http://127.0.0.1:8000/api/workout/getall/" +
-        localStorage.getItem("UserID");
-      const response = await axios.get(apistr);
-      const data = response.data;
-      function searchWorkoutIdByName(WorkoutName) {
-        for (const Workout of data) {
-          if (Workout.workoutName.toLowerCase() === WorkoutName.toLowerCase()) {
-            return Workout.workoutId;
-          }
-        }
-        return null; // Return null if WorkoutName is not found
-      }
-      console.log(searchWorkoutIdByName(WorkoutName));
-      return searchWorkoutIdByName(WorkoutName);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   async function updateValues() {
     const myForm = {
       workoutId: editingRowId,
@@ -275,29 +34,12 @@ function page() {
       date: date,
       achievement: award,
     };
-    console.log(myForm, "updated");
-    // Post the form data to your API route using Axios
-
     try {
-      const response = await axios.put(
-        "http://127.0.0.1:8000/api/workout/update",
-        myForm,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      //console.log(myForm,"hoiiii");
+      const response = await putData(workoutUrl.put, myForm);
       window.location.reload();
       if (!response.data) {
         throw new Error("Network response was not ok");
       }
-      console.log(response.data);
-      //router.replace("/");
-      // Handle the response data
-      console.log(response.data, "helloooo");
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
@@ -307,59 +49,122 @@ function page() {
   }
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/workout/getall/" +
-          localStorage.getItem("UserID")
-      );
-      const data = response.data;
-      console.log(data, "ffefef");
-      return data;
+      const response = await getData(workoutUrl.get) 
+      if(response){
+      setapiData(response);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  const handleAdd = async (event) => { 
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formObject = Object.fromEntries(formData.entries());
+    const body = {
+      userid: localStorage.getItem("UserID"),
+      workoutName: formObject.workoutName,
+      reps: formObject.reps,
+      weight: formObject.weight,
+      date: formObject.date,
+      achievement: formObject.award ? true : false,
+    };
+    const { data, error } = await postData(workoutUrl.post, body);
+    console.log("new", data);
+    if (data) {
+      window.location.reload();
+    } else {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (workoutId) => {
+    const response = await deleteData(workoutUrl.delete, {
+      workoutId: workoutId,
+    });
+    console.log(response);
+    if (response.message) window.location.reload();
+  };
   useEffect(() => {
     (async () => {
-      const data = await fetchData();
-      setapiData(data);
+       await fetchData();
     })();
   }, []);
 
   return (
-    <>
-      <div className="my-6 grid grid-cols-2 gap-4 mx-3">
-      <div className=" bg-gray-900 rounded-xl h-fit">
+    <div className="bg-gray-950 w-full  h-[90vh] ">
+      <div
+        className={`flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly ${
+          isEditing ? "flex-col" : ""
+        }`}
+      >
+        <div
+          className={`  rounded-xl   overflow-auto ${
+            isEditing ? "w-full" : "w-3/4 max-h-[85vh]  "
+          }`}
+        >
           <div className="relative overflow-x-auto rounded-xl">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead className=" text-gray-100 capitalize  font-bold dark:bg-gray-700 bg-red-800">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
+                  <th
+                    scope="col"
+                    className="text-center p-3 border-r border-slate-600"
+                  >
                     Workout Name
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th
+                    scope="col"
+                    className="text-center p-3 border-r border-slate-600"
+                  >
                     Reps
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th
+                    scope="col"
+                    className="text-center p-3 border-r border-slate-600"
+                  >
                     Weight
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th
+                    scope="col"
+                    className="text-center p-3 border-r border-slate-600"
+                  >
                     Date
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th
+                    scope="col"
+                    className="text-center p-3 border-r border-slate-600"
+                  >
                     Acheievments
                   </th>
-                  <th scope="col" className="px-6 py-3">Edits</th>
+                  <th
+                    scope="col"
+                    className="text-center p-3 border-r border-slate-600"
+                  >
+                    Edit
+                  </th>
+                  <th
+                    scope="col"
+                    className=" text-center p-3  border-slate-600 "
+                  >
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {apiData.map((item) => (
-                  <tr key={item.workoutId} className="dark:bg-gray-800 dark:text-gray-400">
-                    <th>{item.workoutName}</th>
-                    <td>
+                {apiData?.map((item) => (
+                  <tr
+                    key={item.workoutId}
+                    className="dark:bg-gray-800 dark:text-gray-400 text-center"
+                  >
+                    <td className="border-r border-slate-600 border-t">
+                      {item.workoutName}
+                    </td>
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.workoutId ? (
                         <input
-                          className="text-white placeholder-teal-100 bg-gray-700 caret-white"
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
                           name="reps"
                           placeholder={item.reps}
                           onChange={(e) => {
@@ -370,10 +175,10 @@ function page() {
                         item.reps
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.workoutId ? (
                         <input
-                          className="text-white placeholder-teal-100 bg-gray-700 caret-white"
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
                           placeholder={item.weight}
                           onChange={(e) => {
                             setWeight(e.target.value);
@@ -383,10 +188,11 @@ function page() {
                         item.weight
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.workoutId ? (
                         <input
-                          className="text-white placeholder-teal-100 bg-gray-700 caret-white"
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          type="date"
                           placeholder={item.date}
                           onChange={(e) => {
                             setDate(e.target.value);
@@ -396,16 +202,22 @@ function page() {
                         item.date
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.workoutId ? (
-                        <Checkbox defaultChecked={item.achievement ===  1.0} onChange={(e)=>setAward(e.target.checked)} />
-                        
+                        <Checkbox
+                          defaultChecked={item.achievement === 1.0}
+                          onChange={(e) => setAward(e.target.checked)}
+                        />
                       ) : (
-                        <Checkbox disabled defaultChecked={item.achievement ===  1.0} />
+                        <Checkbox
+                          disabled
+                          defaultChecked={item.achievement === 1.0}
+                        />
                       )}
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="border-slate-600 border-t p-4 border-r">
                       <button
+                        className="bg-blue-600 px-6 py-1 rounded text-white hover:bg-blue-700"
                         onClick={() => {
                           setEditingRowId(item.workoutId);
                           setEditingRowName(item.workoutName);
@@ -419,41 +231,72 @@ function page() {
                         Edit
                       </button>
                     </td>
+                    <td className=" border-slate-600 border-t p-4 ">
+                      <button
+                        onClick={() => {
+                          handleDelete(item.workoutId);
+                        }}
+                        className="bg-red-600 px-6 py-1 rounded text-white hover:bg-red-700"
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           {isEditing === true ? (
-            <td className="px-6 py-4 items-center">
-              <button className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+            <div className="  p-4 flex items-center gap-4">
+              <button
+                className=" text-sm font-medium px-4 py-2 text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                 onClick={() => {
                   setIsEditing(false);
-                  setEditingRowId(null); 
+                  setEditingRowId(null);
                   updateValues();
                 }}
               >
                 Save
               </button>
-            </td>
+
+              <button
+                className="text-red-500"
+                onClick={() => {
+                  setEditingRowId();
+                  setEditingRowName();
+                  setAward();
+                  setDate();
+                  setReps();
+                  setWeight();
+                  setIsEditing(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           ) : (
             <></>
           )}
         </div>
-        <div className="col-span-1 overflow-y-auto h-screen scroll rounded-xl">
+
+        <div className={`w-1/3 ${isEditing?" hidden ":" block "} `}>
           <section className="bg-white dark:bg-gray-900 rounded-xl">
-            <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-              <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+            <div className="pb-5 px-4 pt-3  rounded-md  w-full flex flex-col items-start">
+              <h2 className="mb-4 text-xl font-bold   text-center w-full dark:text-white">
                 Add a new workout
               </h2>
-              <form onSubmit={handleSubmit2} action="#">
-                <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                  <div className="w-full">
+              <form
+                onSubmit={handleAdd}
+                action="#"
+                className="flex flex-col w-full justify-center"
+              >
+                <div className="">
+                  <div className="w-full my-2">
                     <label
                       htmlFor="brand"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      workout Name
+                      Workout name
                     </label>
                     <input
                       type="text"
@@ -467,7 +310,7 @@ function page() {
                   <div className="w-full">
                     <label
                       htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Reps Count
                     </label>
@@ -483,9 +326,9 @@ function page() {
                   <div className="w-full">
                     <label
                       htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Weight in Kg's
+                      Weight in Kg
                     </label>
                     <input
                       type="number"
@@ -499,12 +342,12 @@ function page() {
                   <div className="w-full">
                     <label
                       htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Date
                     </label>
                     <input
-                      type="text"
+                      type="date"
                       name="date"
                       id="price"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -512,35 +355,25 @@ function page() {
                       required=""
                     />
                   </div>
+                  <div className="flex items-center gap-3 py-3">
+                    <Checkbox name="award" />
+                    <label className="text-white "> Achievement ? </label>
+                  </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(0)} // Set task to  0 for Add
+                  className="mt-5 w-full px-3 py-2    font-bold  text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-green-400 "
+                   // Set task to  0 for Add
                 >
                   Add workout
-                </button>
-                <button
-                  type="submit"
-                  className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(1)} // Set task to  1 for Update
-                >
-                  Update workout
-                </button>
-                <button
-                  type="submit"
-                  className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(2)} // Set task to  2 for Delete
-                >
-                  Delete workout
                 </button>
               </form>
             </div>
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
