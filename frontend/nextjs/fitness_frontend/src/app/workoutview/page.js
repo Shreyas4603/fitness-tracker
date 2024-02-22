@@ -98,6 +98,17 @@ export default function Home() {
               </h5>
               <Radar
               options={{
+                scales: {
+                  r: {
+                    ticks: {
+                      
+                      backdropColor: "rgba(0, 0, 0, 0)"
+                  },
+                    pointLabels: {
+                      display: true, // This hides the labels around the radar chart
+                    },
+                  },
+                },
                 backgroundColor: "rgba(214,151,255,0.5)",
                 borderColor: "rgba(214,151,255,1)",
                 scale: { max: 50, min: 0 },
@@ -120,6 +131,17 @@ export default function Home() {
             
               <Radar
               options={{
+                scales: {
+                  r: {
+                    ticks: {
+                      
+                      backdropColor: "rgba(0, 0, 0, 0)"
+                  },
+                    pointLabels: {
+                      display: true, // This hides the labels around the radar chart
+                    },
+                  },
+                },
                 backgroundColor: "rgba(105,208,214,0.5)",
                 borderColor: "rgba(105,208,214,1)",
                 scale: { max: 80, min: 0 },
