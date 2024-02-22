@@ -32,7 +32,7 @@ console.log(loc)
             aria-expanded="false"
             data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom"
-            href={"../register/"}
+            href={"../profile/"}
           >
             <span className="sr-only">Open user menu</span>
             <img

@@ -197,7 +197,7 @@ export default function Home() {
     }, 40);
     const timer3 = setTimeout(() => {
       fetchLatestData();
-    }, 60);
+    }, 70);
     return () => {
       clearTimeout(timer);
       clearTimeout(timer2);
