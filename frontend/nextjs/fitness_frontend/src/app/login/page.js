@@ -1,79 +1,32 @@
-"use client"
-import React from "react";
-import { redirect } from "next/navigation";
+"use client";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import axios from "axios";
 
-
 export default function Home() {
-const [isLogged, setIsLogged] = useState(false);
-const [uid, setUid] = useState("");
-const saveToLocalStorage = () => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('UserID', uid);
-  }
-};
+  const [uid, setUid] = useState("");
+  const router = useRouter();
 
-// Function to load from local storage
-const loadFromLocalStorage = () => {
-  if (typeof window !== 'undefined') {
-    const storedValue = localStorage.getItem('UserID');
-    if (storedValue) {
-      setUid(storedValue);
-    }
-  }
-};
-const router = useRouter();
-async function handleSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-
-  // Convert form data to an object
-  const formObject = Object.fromEntries(formData.entries());
-  console.log(JSON.stringify(formObject));
-
-  // Post the form data to your API route using Axios
-  try {
-    const response = await axios.post("http://127.0.0.1:8000/api/user/login", formObject, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(response => {
-            console.log(response);
-          }).catch(error => {
-            if (error.response) {
-              console.log(error.response.data);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-            } else if (error.request) {
-              console.log(error.request);
-            } else {
-              console.log('Error', error.message);
-            }
-            console.log(error.config);
-          });
-
-    console.log(formObject);
-
-    if (!response.data) {
-      throw new Error("Network response was not ok");
-    }
-
-   
-    // Handle the response data
-    console.log(response.data, "helloooo");
-    localStorage.setItem('UserID', response.data.data.pid);
-    console.log(localStorage.getItem('UserID'))
-    router.replace("/");
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error.message);
-
-    if (!isLogged) {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formObject = Object.fromEntries(formData.entries());
+    
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/user/login", formObject, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      console.log(response.data);
+      localStorage.setItem('UserID', response.data.data.pid);
+      router.replace("/");
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error.message);
       router.push('login');
     }
-  }
-}
+  };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-500">

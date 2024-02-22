@@ -34,7 +34,7 @@ def addParameter(body: paramter):
     paramterId = str(uuid.uuid4())
     try:
         cur.execute(
-            f'INSERT into parameters values ("{paramterId}","{body.weight}","{body.height}","{body.date}","{body.userId}") ;'
+            f'INSERT into parameters values ("{paramterId}","{body.weight}","{body.height}","{body.date}","{body.userId}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ;'
         )
         db.myconn.commit()
         return {"data": paramterId}
@@ -47,7 +47,7 @@ def addParameter(body: paramter):
 def updateParameter(body: UpdateParameter):
     try:
         cur.execute(
-            f'UPDATE parameters SET weight = "{body.weight}", height = "{body.height}", date = "{body.date}" WHERE parameterId = "{body.parameterId}";'
+            f'UPDATE parameters SET weight = "{body.weight}", height = "{body.height}", date = "{body.date}",updated_at=CURRENT_TIMESTAMP  WHERE parameterId = "{body.parameterId}";'
         )
         db.myconn.commit()
         return {"message": "Parameter updated successfully"}

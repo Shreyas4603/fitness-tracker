@@ -33,7 +33,7 @@ def addDiet(body: Diet):
     dietId = str(uuid.uuid4())
     try:
         db.cur.execute(
-            f'INSERT into diet values ("{dietId}","{body.userid}","{body.mealType}",{body.protein},{body.calories},"{body.date}");'
+            f'INSERT into diet values ("{dietId}","{body.userid}","{body.mealType}",{body.protein},{body.calories},"{body.date}" ,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
         )
         db.myconn.commit()
         return {"data": dietId}
@@ -45,7 +45,7 @@ def addDiet(body: Diet):
 def updateDiet(body: UpdateDiet):
     try:
         db.cur.execute(
-            f'UPDATE diet SET mealType = "{body.mealType}", protein = {body.protein}, calories = {body.calories}, date = "{body.date}" WHERE dietId = "{body.dietId}";'
+            f'UPDATE diet SET mealType = "{body.mealType}", protein = {body.protein}, calories = {body.calories}, date = "{body.date}",updated_at=CURRENT_TIMESTAMP WHERE dietId = "{body.dietId}";'
         )
         db.myconn.commit()
         return {"message": "Diet updated successfully"}
@@ -79,6 +79,26 @@ def getAllDiets(user_id: str):
             }
             for diet in diets
         ]
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
+@router.get(DIET_URL + "/getLatest/{user_id}", status_code=200)
+def getLatest(user_id: str):
+    try:
+        db.cur.execute(f'SELECT mealType,protein,calories,date   FROM diet WHERE userid = "{user_id}" ORDER BY date DESC LIMIT 1;')
+        latest = db.cur.fetchone()
+        mealType,protein,calories,date=latest
+        return {"data":{
+            'mealType':mealType,
+            'protein':protein,
+            'calories':calories,
+            'date':date
+        }}
+           
+            
+        
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail="Internal Server Error")
