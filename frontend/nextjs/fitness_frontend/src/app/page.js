@@ -260,7 +260,7 @@ export default function Home() {
             color={"rgba(105,208,114,1)"}
           />
         </div>
-        <div className="flex flex-col justify-center items-end  space-y-4">
+        <div className="flex flex-col justify-center items-center   space-y-4">
           {/* Weight Circle */}
           <div className="bg-gradient-to-b from-gray-300 to-amber-200 w-24 h-24 bg-white rounded-full flex items-center justify-center relative">
             <span className="text-2xl font-bold">{latestWeight}</span>
