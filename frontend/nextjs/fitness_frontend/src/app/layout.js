@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html className='dark' lang="en">
       
-      <body className={`{inter.className} border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-700 `}><Navbar/>{children}</body>
+      <body className={`{inter.className} border-gray-200 bg-gray-50 dark:bg-gray-950 dark:border-gray-700 `}><Navbar/>{children}</body>
     </html>
   )
 }

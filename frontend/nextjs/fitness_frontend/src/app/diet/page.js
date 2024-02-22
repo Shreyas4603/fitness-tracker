@@ -1,118 +1,27 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-function page() {
-  const [apiData, setapiData] = useState([]);
+import { deleteData, putData, postData } from "../../../utils/apiCall";
+import { Dropdown } from "flowbite-react";
+function Page() {
+  const [apiData, setApiData] = useState([]);
   const [task, setTask] = useState(null);
   const [editingRowId, setEditingRowId] = useState(null);
   const [editingRowName, setEditingRowName] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-
-  const [protein, setProtein] = useState("");
-  const [calories, setCalories] = useState("");
+  const [protein, setProtein] = useState(0);
+  const [calories, setCalories] = useState(0);
   const [date, setDate] = useState("");
-  const handleSubmit2 = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formObject = Object.fromEntries(formData.entries());
+  const [mealType, setMealType] = useState("Meal Type");
 
-    let url, method;
-    let myForm = {};
-
-    switch (task) {
-      case 0: // Add
-        url = "http://127.0.0.1:8000/api/diet/add";
-        method = "POST";
-        myForm = {
-          userid: localStorage.getItem("UserID"),
-          mealType: formObject.mealType,
-          protein: formObject.protein,
-          calories: formObject.calories,
-          date: formObject.date,
-         
-        };
-        break;
-      case 1: // Update
-        url = "http://127.0.0.1:8000/api/diet/update";
-        method = "PUT";
-        myForm = {
-            dietId:await fetchDietId(formObject.mealType, formObject.date),
-            mealType: formObject.mealType,
-            protein: formObject.protein,
-            calories: formObject.calories,
-            date: formObject.date,
-        
-        };
-        console.log(myForm);
-        break;
-      case 2: // Delete
-        url = "http://127.0.0.1:8000/api/diet/delete";
-        method = "DELETE";
-        myForm = {
-            dietId:await fetchDietId(formObject.mealType, formObject.date),
-        };
-        break;
-      default:
-        throw new Error("Invalid task.");
-    }
-
-    try {
-      const response = await axios({
-        url,
-        method,
-        data: myForm,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      window.location.reload();
-      if (!response.data) {
-        throw new Error("Network response was not ok");
-      }
-      console.log(response.data);
-      // Handle the response data
-      console.log(response.data, "helloooo");
-    } catch (error) {
-      console.error(
-        "There was a problem with the fetch operation:",
-        error.message
-      );
-    }
-  };
-
-  const fetchDietId = async (mealType, date) => {
-    try {
-      // Replace 'DIET_API_ENDPOINT' with the actual endpoint of your Diet API
-      let apiUrl = "http://127.0.0.1:8000/api/diet/getall/"+localStorage.getItem("UserID")
-      const response = await axios.get(apiUrl);
-      const data = response.data;
-  
-      function searchDietIdByMealAndDate(mealType, date) {
-        for (const diet of data) {
-          if (diet.mealType.toLowerCase() === mealType.toLowerCase() && diet.date === date) {
-            return diet.dietId;
-          }
-        }
-        return null; // Return null if the diet with the given meal type and date is not found
-      }
-  
-      console.log(searchDietIdByMealAndDate(mealType, date));
-      return searchDietIdByMealAndDate(mealType, date);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   async function updateValues() {
     const myForm = {
       dietId: editingRowId,
-      mealType: editingRowName,
+      mealType: mealType,
       protein: protein,
       calories: calories,
       date: date,
-    
     };
-    console.log(myForm, "updated");
-    // Post the form data to your API route using Axios
 
     try {
       const response = await axios.put(
@@ -125,75 +34,164 @@ function page() {
         }
       );
 
-      //console.log(myForm,"hoiiii");
       window.location.reload();
-      if (!response.data) {
-        throw new Error("Network response was not ok");
-      }
       console.log(response.data);
-      //router.replace("/");
-      // Handle the response data
-      console.log(response.data, "helloooo");
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
-        error.message
+        error.detail
       );
     }
   }
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/diet/getall/" +
-          localStorage.getItem("UserID")
+        `http://127.0.0.1:8000/api/diet/getall/${localStorage.getItem(
+          "UserID"
+        )}`
       );
       const data = response.data;
-      console.log(data, "ffefef");
+
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  const handleDelete = async (dietId) => {
+    const response = await deleteData(
+      "http://127.0.0.1:8000/api/diet/delete",
+      { dietId: dietId }
+    );
+    console.log(response);
+    if (response.message) window.location.reload();
+  };
+
+  const handleAdd = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formObject = Object.fromEntries(formData.entries());
+
+    let myForm = formObject;
+    console.log(myForm);
+    const body = {
+      userid: localStorage.getItem("UserID"),
+      mealType: mealType,
+      protein: parseFloat(myForm.protein),
+      calories: parseFloat(myForm.calories),
+      date: myForm.date,
+    };
+    console.log(body);
+
+    const { data, error } = await postData(
+      "http://127.0.0.1:8000/api/diet/add",
+      body
+    );
+    console.log("new", data);
+    if (data) {
+      window.location.reload();
+    } else {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const data = await fetchData();
-      setapiData(data);
+      setApiData(data);
     })();
   }, []);
 
   return (
-    <>
-      <div className="grid grid-cols-2 gap-4 mx-3">
-      <div className=" bg-gray-900 rounded-xl h-fit">
+    <div className="bg-gray-950 w-full  h-[90vh]">
+      <div className="flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly  ">
+        <div className="  rounded-xl  xl:w-1/2 w-3/4 h-[85vh] overflow-auto ">
           <div className="relative overflow-x-auto rounded-xl">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead className=" text-gray-100 capitalize  font-bold dark:bg-gray-700 bg-red-800 ">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Meal Type
+                  <th
+                    scope="col"
+                    className=" text-center p-3 border-r border-slate-600 "
+                  >
+                    Meal
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    Protein
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Calories
-                  </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th
+                    scope="col"
+                    className=" text-center p-3 border-r border-slate-600 "
+                  >
                     Date
                   </th>
-                  <th scope="col" className="px-6 py-3"></th>
+                  <th
+                    scope="col"
+                    className=" text-center p-3 border-r border-slate-600 "
+                  >
+                    Protein
+                  </th>
+                  <th
+                    scope="col"
+                    className=" text-center p-3 border-r border-slate-600 "
+                  >
+                    Calories
+                  </th>
+                  <th
+                    scope="col"
+                    className=" text-center p-3 border-r border-slate-600 "
+                  >
+                    Actions
+                  </th>
+
+                  <th
+                    scope="col"
+                    className=" text-center p-3  border-slate-600 "
+                  >
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {apiData.map((item) => (
-                  <tr key={item.dietId} className=" dark:bg-gray-800">
-                    <th>{item.mealType}</th>
-                    <td>
+                  <tr
+                    key={item.dietId}
+                    className="dark:bg-gray-800 dark:text-gray-400 text-center"
+                  >
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.dietId ? (
                         <input
-                          className="text-white placeholder-yellow-300 bg-gray-700"
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          name="mealType"
+                          type="text"
+                          value={item.mealType}
+                          onChange={(e) => {
+                            setDate(e.target.value);
+                          }}
+                        />
+                      ) : (
+                        item.mealType
+                      )}
+                    </td>
+                    <td className="border-r border-slate-600 border-t">
+                      {editingRowId === item.dietId ? (
+                        <input
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          name="date"
+                          type="date"
+                          value={item.date}
+                          onChange={(e) => {
+                            setDate(e.target.value);
+                          }}
+                        />
+                      ) : (
+                        item.date
+                      )}
+                    </td>
+                    <td className="border-r border-slate-600 border-t">
+                      {editingRowId === item.dietId ? (
+                        <input
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
                           name="protein"
+                          type="number"
                           placeholder={item.protein}
                           onChange={(e) => {
                             setProtein(e.target.value);
@@ -203,10 +201,12 @@ function page() {
                         item.protein
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="border-r border-slate-600 border-t">
                       {editingRowId === item.dietId ? (
                         <input
-                          className="text-white placeholder-yellow-300 bg-gray-700"
+                          className=" rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          name="calories"
+                          type="number"
                           placeholder={item.calories}
                           onChange={(e) => {
                             setCalories(e.target.value);
@@ -216,31 +216,29 @@ function page() {
                         item.calories
                       )}
                     </td>
-                    <td className="px-6 py-4">
-                      {editingRowId === item.dietId ? (
-                        <input
-                          className="text-white placeholder-yellow-300 bg-gray-700"
-                          placeholder={item.date}
-                          onChange={(e) => {
-                            setDate(e.target.value);
-                          }}
-                        />
-                      ) : (
-                        item.date
-                      )}
-                    </td>
-                    <td className="px-4 py-4">
+                    <td className=" border-slate-600 border-t p-4 border-r">
                       <button
                         onClick={() => {
                           setEditingRowId(item.dietId);
-                          setEditingRowName(item.mealType);
-                          setCalories(item.calories);
-                          setProtein(item.protein);
                           setDate(item.date);
+                          setMealType(item.mealType);
+                          setProtein(item.protein);
+                          setCalories(item.calories);
                           setIsEditing(true);
                         }}
+                        className="bg-blue-500 px-6 py-1 rounded text-white"
                       >
                         Edit
+                      </button>
+                    </td>
+                    <td className=" border-slate-600 border-t p-4 ">
+                      <button
+                        onClick={() => {
+                          handleDelete(item.dietId);
+                        }}
+                        className="bg-red-500 px-6 py-1 rounded text-white"
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>
@@ -249,51 +247,105 @@ function page() {
             </table>
           </div>
           {isEditing === true ? (
-            <td className="px-6 py-4 items-center">
-              <button className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+            <div className="  p-4 flex items-center gap-4">
+              <button
+                className=" text-sm font-medium px-4 py-2 text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                 onClick={() => {
                   setIsEditing(false);
-                  setEditingRowId(null); 
+                  setEditingRowId(null);
                   updateValues();
                 }}
               >
                 Save
               </button>
-            </td>
+
+              <button
+                className="text-red-500"
+                onClick={() => {
+                  setEditingRowId();
+                  setDate();
+                  setMealType();
+                  setProtein();
+                  setCalories();
+                  setIsEditing(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           ) : (
             <></>
           )}
         </div>
-        <div className="col-span-1 overflow-y-auto h-screen scroll rounded-xl">
-          <section className="bg-white dark:bg-gray-900 rounded-xl">
-            <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-              <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-                Add a new workout
+
+        <div className=" w-1/3">
+          <section className="bg-white dark:bg-gray-800 rounded-xl">
+            <div className="pb-5 px-4 pt-3  rounded-md  w-full flex flex-col items-start ">
+              <h2 className="mb-4 text-xl font-bold   text-center w-full dark:text-white">
+                Add a new Meal
               </h2>
-              <form onSubmit={handleSubmit2} action="#">
-                <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                  <div className="w-full">
+              <form
+                onSubmit={handleAdd}
+                action="#"
+                className="flex flex-col w-full justify-center"
+              >
+                <div className=" ">
+                  <Dropdown
+                    label={mealType}
+                    dismissOnClick="false"
+                    className=" bg-white px-4"
+                    name="mealType"
+                    value={mealType}
+                    required
+                  >
+                    <Dropdown.Item
+                      className=" text-white"
+                      onClick={() => {
+                        setMealType(mealType=>"Breakfast");
+                      }}
+                    >
+                      Breakfast
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className=" text-white"
+                      onClick={() => {
+                        setMealType(mealType=>"Lunch");
+                      }}
+                    >
+                      Lunch
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className=" text-white"
+                      onClick={() => {
+                        setMealType(mealType=>"Dinner");
+                      }}
+                    >
+                      Dinner
+                    </Dropdown.Item>
+                  </Dropdown>
+
+                  <div className="w-full my-2">
                     <label
                       htmlFor="brand"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Meal Type
+                      Date
                     </label>
                     <input
-                      type="text"
-                      name="mealType"
+                      type="date"
+                      name="date"
                       id="brand"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="meal type"
-                      required=""
+                      placeholder="date"
+                      required={true}
                     />
                   </div>
-                  <div className="w-full">
+                  <div className="w-full  my-2">
                     <label
                       htmlFor="price"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Protein
+                      Protein in grams
                     </label>
                     <input
                       type="number"
@@ -305,69 +357,47 @@ function page() {
                       required=""
                     />
                   </div>
-                  <div className="w-full">
+                  <div className="w-fullmy-2">
                     <label
                       htmlFor="price"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      calories
+                      Calories
                     </label>
                     <input
                       type="number"
-                      name="calories"
                       step="any"
+                      name="calories"
+                      placeholder="Kcal"
                       id="price"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="kcal"
-                      required=""
-                    />
-                  </div>
-                  <div className="w-full">
-                    <label
-                      htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Date
-                    </label>
-                    <input
-                      type="text"
-                      name="date"
-                      id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="YYYY-MM-DD"
-                      required=""
+                      required
                     />
                   </div>
                 </div>
-
+                <div className="   my-5">
+                  <button
+                    type="submit"
+                    className="w-full px-3 py-2    font-bold  text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-green-400"
+                  >
+                    Add
+                  </button>
+                </div>
+                {/* 
                 <button
                   type="submit"
                   className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(0)} // Set task to  0 for Add
+                  onClick={() => setTask(1)}
                 >
-                  Add meal
-                </button>
-                <button
-                  type="submit"
-                  className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(1)} // Set task to  1 for Update
-                >
-                  Update meal
-                </button>
-                <button
-                  type="submit"
-                  className="inline-flex items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                  onClick={() => setTask(2)} // Set task to  2 for Delete
-                >
-                  Delete meal
-                </button>
+                  Update Parameter
+                </button> */}
               </form>
             </div>
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-export default page;
+export default Page;
