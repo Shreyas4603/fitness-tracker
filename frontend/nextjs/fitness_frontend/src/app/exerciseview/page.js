@@ -83,67 +83,46 @@ export default function home() {
       console.error("error fetching data:", error);
     }
   };
-  const loadfromlocalstorage = () => {
-    if (typeof window !== "undefined") {
-      const storedvalue = localStorage.getitem("userid");
-      if (storedValue) {
-        setUid(storedValue);
-      }
-    }
-  };
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  Chart.defaults.borderColor = "#424242";
+  Chart.defaults.color = "#ffffff";
+
+
   return (
     <>
       <div className="animate-fade-down animate-delay-500 animate-once px-4 my-4 mx-auto max-w-screen-xl text-center">
-        <h1 className=" animate-text  bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent text-5xl font-black ">
+        <h1 className=" animate-text  bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent text-xl font-black ">
           Get your Fitness information the Right way , the FitraX way
         </h1>
-      </div>
-      <div className="flex flex-wrap justify-center items-center m-3">
-      <div className="max-w-full w-128 mx-5 my-2 bg-gradient-to-b from-gray-300 to-amber-200 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-          <a href="/exerciseView">
-            <img
-              className="rounded-t-lg"
-              src="/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
+        <div className="w-full p-2  text-white grid grid-cols-3 grid-rows-1 gap-3 place-content-center">
+        <div className="w-full bg-background-900 rounded-lg text-white">
+
           <div className="p-5">
-            <a href="#" className="">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+              <h5 className="mb-2 text-2xl font-bold  ">
                 Duration *Mins
               </h5>
-            </a>
-
             <Radar
               options={{
                 backgroundColor: "rgba(214,151,255,0.5)",
                 borderColor: "rgba(214,151,255,1)",
+                
                 scale: { max: 100, min: 0 },
               }}
               data={durchartData}
             />
-
-
           </div>
         </div>
-        <div className="max-w-xl w-128 mx-5 my-2 bg-gradient-to-b from-gray-300 to-amber-200 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-          <a href="/exerciseView">
-            <img
-              className="rounded-t-lg"
-              src="/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
+          <div className="w-full bg-background-900 rounded-lg text-white">
           <div className="p-5">
-            <a href="#" className="">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+            
+              <h5 className="mb-2 text-2xl font-bold  ">
                 Distance *Kms
               </h5>
-            </a>
+            
 
             <Radar
               options={{
@@ -155,24 +134,19 @@ export default function home() {
             />
 
 
+          </div>  
           </div>
-        </div>
-        <div className="max-w-full w-128 mx-5 my-2 bg-gradient-to-b from-gray-300 to-amber-200 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-          <a href="/exerciseView">
-            <img
-              className="rounded-t-lg"
-              src="/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
+          <div className="w-full bg-background-900 rounded-lg text-white">
           <div className="p-5">
-            <a href="#" className="">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-                Calories *Kcal
-              </h5>
-            </a>
+            
+              <h5 className="mb-2 text-2xl font-bold  ">
+              Calories *Kcal
 
-            <Radar
+              </h5>
+            
+
+
+              <Radar
               options={{
                 backgroundColor: "rgba(230,133,92,0.5)",
                 borderColor: "rgba(230,133,92,1)",
@@ -182,10 +156,12 @@ export default function home() {
               data={calchartData}
             />
 
-            
+
+          </div>  
           </div>
         </div>
       </div>
+
     </>
   );
 }
