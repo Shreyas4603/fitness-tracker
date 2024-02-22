@@ -132,7 +132,7 @@ const  updateValues=async()=> {
     })();
   }, []);
   return (
-    <div className="bg-gray-950 w-full  h-[90vh] ">
+    <div className=" w-full  h-[90vh] ">
       <div
         className={`flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly ${
           isEditing ? "flex-col" : ""
@@ -145,47 +145,47 @@ const  updateValues=async()=> {
         >
           <div className="relative overflow-x-auto rounded-xl">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
-              <thead className=" text-gray-100 capitalize  font-bold dark:bg-gray-700 bg-red-800">
+              <thead className=" text-gray-100 capitalize  font-bold bg-background-800  ">
                 <tr>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Exercise Name
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Duration
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Distance
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Calories
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Acheievments
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Edits
                   </th>
                   <th
                     scope="col"
-                    className=" text-center p-3  border-slate-600 "
+                    className=" text-center p-3  border-background-600 "
                   >
                     Delete
                   </th>
@@ -195,15 +195,15 @@ const  updateValues=async()=> {
                 {apiData?.map((item) => (
                   <tr
                     key={item.exerciseId}
-                    className="dark:bg-gray-800 dark:text-gray-400 text-center"
+                    className="dark:bg-background-900 dark:text-gray-400 text-center"
                   >
-                    <th className="border-r border-slate-600 border-t">
+                    <th className="border-r border-background-600 border-t">
                       {item.exerciseName}
                     </th>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.exerciseId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-background-700 text-white placeholder:text-white placeholder:font-medium outline-none"
                           name="duration"
                           placeholder={item.duration}
                           onChange={(e) => {
@@ -214,10 +214,10 @@ const  updateValues=async()=> {
                         item.duration
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.exerciseId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-background-700 text-white placeholder:text-white placeholder:font-medium outline-none"
                           placeholder={item.distance}
                           onChange={(e) => {
                             setDistance(e.target.value);
@@ -227,10 +227,10 @@ const  updateValues=async()=> {
                         item.distance
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.exerciseId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-background-700 text-white placeholder:text-white placeholder:font-medium outline-none"
                           placeholder={item.calories}
                           onChange={(e) => {
                             setCalories(e.target.value);
@@ -240,7 +240,7 @@ const  updateValues=async()=> {
                         item.calories
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.exerciseId ? (
                         <Checkbox
                           defaultChecked={item.achievement === 1.0}
@@ -253,7 +253,7 @@ const  updateValues=async()=> {
                         />
                       )}
                     </td>
-                    <td className="border-slate-600 border-t p-4 border-r">
+                    <td className="border-background-600 border-t p-4 border-r">
                       <button
                         className="bg-blue-600 px-6 py-1 rounded text-white hover:bg-blue-700"
                         onClick={() => {
@@ -269,7 +269,7 @@ const  updateValues=async()=> {
                         Edit
                       </button>
                     </td>
-                    <td className=" border-slate-600 border-t p-4 ">
+                    <td className=" border-background-600 border-t p-4 ">
                       <button
                         onClick={() => {
                           handleDelete(item.exerciseId);
@@ -318,15 +318,15 @@ const  updateValues=async()=> {
         </div>
 
         <div className={`w-1/3 ${isEditing ? " hidden " : " block "} `}>
-          <section className="bg-white dark:bg-gray-900 rounded-xl">
-            <div className="pb-5 px-4 pt-3  rounded-md  w-full flex flex-col items-start">
-              <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white text-center w-full">
+          <section className="bg-white dark:bg-background-900 rounded-xl">
+            <div className="rounded-md  w-full flex flex-col items-start">
+              <h2 className="text-xl font-bold   text-center w-full dark:text-white pb-3 px-4 pt-3 border-b border-background-800  rounded-t-md">
                 Add a new Exercise
               </h2>
               <form
                 onSubmit={handleAdd}
                 action="#"
-                className="flex flex-col w-full justify-center"
+                className="flex flex-col w-full justify-center p-4"
               >
                 <div className="">
                   <div className="w-full my-2">
@@ -340,7 +340,7 @@ const  updateValues=async()=> {
                       type="text"
                       name="excerciseName"
                       id="brand"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="Exercise Name"
                       required
                     />
@@ -357,7 +357,7 @@ const  updateValues=async()=> {
                       name="duration"
                      
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="30"
                       required
                     />
@@ -373,7 +373,7 @@ const  updateValues=async()=> {
                       type="number"
                       name="distance"
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="type 0 if not applicable"
                       required
                     />
@@ -390,21 +390,21 @@ const  updateValues=async()=> {
                       name="calories"
                       
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="Kcal"
                       required
                     />
                   </div>
 
-                  <div className="flex items-center gap-3 py-3">
-                    <Checkbox name="award" />
+                  <div className="flex items-center gap-3 py-3 ">
+                    <Checkbox name="award"  className=""/>
                     <label className="text-white "> Achievement ? </label>
                   </div>
                 </div>
                 <button
                   type="submit"
-                  className="mt-5 w-full px-3 py-2    font-bold  text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-green-400 "
-                  onClick={() => setTask(0)} // Set task to  0 for Add
+                  className="w-full px-3 py-2    font-bold  text-center text-white bg-primary-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700 "
+                  
                 >
                   Add Exercise
                 </button>

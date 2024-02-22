@@ -176,7 +176,7 @@ export default function home() {
               options={{
                 backgroundColor: "rgba(230,133,92,0.5)",
                 borderColor: "rgba(230,133,92,1)",
-                scale: { max: 700, min: 0 },
+                scale: { max: 5000, min: 100 },
                 chartColor: "rgba(0,0,0,1)",
               }}
               data={calchartData}

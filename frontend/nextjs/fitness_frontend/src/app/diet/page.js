@@ -53,7 +53,7 @@ function page() {
       console.log(response.data);
       //router.replace("/");
       // Handle the response data
-      console.log(response.data, "helloooo");
+
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
@@ -115,7 +115,7 @@ function page() {
     setmealType(event.target.value);
   };
   return (
-    <div className="bg-gray-950 w-full  h-[90vh] ">
+    <div className=" w-full  h-[90vh]  dark:text-white">
       <div
         className={`flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly ${
           isEditing ? "flex-col" : ""
@@ -127,42 +127,42 @@ function page() {
           }`}
         >
           <div className="relative overflow-x-auto rounded-xl">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
-              <thead className=" text-gray-100 capitalize  font-bold dark:bg-gray-700 bg-red-800">
+            <table className="w-full text-sm text-left rtl:text-right bg-background-900  rounded-xl">
+              <thead className="  capitalize  font-bold  bg-background-800">
                 <tr>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Meal Type
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Protein
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Calories
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Date
                   </th>
                   <th
                     scope="col"
-                    className="text-center p-3 border-r border-slate-600"
+                    className="text-center p-3 border-r border-background-600"
                   >
                     Edit
                   </th>
                   <th
                     scope="col"
-                    className=" text-center p-3  border-slate-600 "
+                    className=" text-center p-3  border-background-600 "
                   >
                     Delete
                   </th>
@@ -172,12 +172,12 @@ function page() {
                 {apiData?.map((item) => (
                   <tr
                     key={item.dietId}
-                    className=" dark:bg-gray-800 text-center"
+                    className=" dark:bg-background-900 text-center"
                   >
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.dietId ? (
                         <select
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 text-center"
+                          className="bg-background-800 rounded outline-none border-none focus:border-none text-center"
                           name="mealType"
                           onChange={handleMealChange}
                           value={mealType || item.mealType}
@@ -191,10 +191,10 @@ function page() {
                         item.mealType
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.dietId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-background-800  text-white placeholder:text-white placeholder:font-medium outline-none"
                           name="protein"
                           placeholder={item.protein}
                           onChange={(e) => {
@@ -205,10 +205,10 @@ function page() {
                         item.protein
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.dietId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-background-800  text-white placeholder:text-white placeholder:font-medium outline-none"
                           placeholder={item.calories}
                           onChange={(e) => {
                             setCalories(e.target.value);
@@ -218,10 +218,10 @@ function page() {
                         item.calories
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.dietId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-background-800  text-white placeholder:text-white placeholder:font-medium outline-none"
                           placeholder={item.date}
                           onChange={(e) => {
                             setDate(e.target.value);
@@ -231,7 +231,7 @@ function page() {
                         item.date
                       )}
                     </td>
-                    <td className="border-slate-600 border-t p-4 border-r">
+                    <td className="border-background-600 border-t p-4 border-r">
                       <button
                         className="bg-blue-600 px-6 py-1 rounded text-white hover:bg-blue-700"
                         onClick={() => {
@@ -246,7 +246,7 @@ function page() {
                         Edit
                       </button>
                     </td>
-                    <td className=" border-slate-600 border-t p-4 ">
+                    <td className=" border-background-600 border-t p-4 ">
                       <button
                         onClick={() => {
                           handleDelete(item.dietId);
@@ -293,15 +293,15 @@ function page() {
           )}
         </div>
         <div className={`w-1/3 ${isEditing ? " hidden " : " block "} `}>
-          <section className="bg-white dark:bg-gray-900 rounded-xl">
-            <div className="pb-5 px-4 pt-3  rounded-md  w-full flex flex-col items-start">
-              <h2 className="mb-4 text-xl font-bold   text-center w-full dark:text-white">
+          <section className="bg-white dark:bg-background-900 rounded-xl">
+            <div className="rounded-md  w-full flex flex-col items-start">
+              <h2 className="text-xl font-bold   text-center w-full dark:text-white pb-3 px-4 pt-3 border-b border-background-800  rounded-t-md">
                 Add a new workout
               </h2>
               <form
                 onSubmit={handleAdd}
                 action="#"
-                className="flex flex-col w-full justify-center"
+                className="flex flex-col w-full justify-center p-4"
               >
                 <div className="">
                   <div className="w-full my-2">
@@ -312,7 +312,7 @@ function page() {
                       Meal Type
                     </label>
                     <select
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       name="mealType"
                     >
                       <option>Breakfast</option>
@@ -320,14 +320,6 @@ function page() {
                       <option>Evening snack</option>
                       <option>Dinner</option>
                     </select>
-                    {/* <input
-                      type="text"
-                      name="mealType"
-                      id="brand"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="meal type"
-                      required=""
-                    /> */}
                   </div>
                   <div className="w-full">
                     <label
@@ -341,7 +333,7 @@ function page() {
                       name="protein"
                       step="any"
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="grams"
                       required=""
                     />
@@ -358,7 +350,7 @@ function page() {
                       name="calories"
                       step="any"
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="kcal"
                       required=""
                     />
@@ -374,7 +366,7 @@ function page() {
                       type="date"
                       name="date"
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="YYYY-MM-DD"
                       required=""
                     />
@@ -383,7 +375,7 @@ function page() {
 
                 <button
                   type="submit"
-                  className="mt-5 w-full px-3 py-2    font-bold  text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-green-400"
+                  className="mt-5 w-full px-3 py-2    font-bold  text-center text-white bg-primary-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700"
                 >
                   Add meal
                 </button>

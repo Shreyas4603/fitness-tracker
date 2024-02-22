@@ -9,52 +9,57 @@ const ChartComponent = ({
   addUrl,
   svgPath,
   buttonText,
-}) => (
-  <div className="bg-gradient-to-b from-gray-300 to-amber-200 max-w-4xl w-128 m-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
-    <a href={linkUrl}>
-      <img className="rounded-t-lg" src={imageSrc} alt="" />
-    </a>
-    <div className="p-5">
-      <a href={linkUrl} className="hover:text-blue-500">
-        <h5 className="hover:bg-gray-200 underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
-          {chartTitle}
-        </h5>
+}) => {
+  // Chart.defaults.backgroundColor = "#fffff";
+  Chart.defaults.borderColor = "#424242";
+  Chart.defaults.color = "#ffffff";
+  return (
+    <div className="bg-background-900    rounded-lg shadow text-white  border border-background-900 h-full">
+      <a href={linkUrl}>
+        <img className="rounded-t-lg" src={imageSrc} alt="" />
       </a>
+      <div className="p-5">
+        <a href={linkUrl} className="">
+          <h5 className=" text-center text-2xl pb-3 ">
+            {chartTitle}
+          </h5>
+        </a>
 
-      <Radar
-        options={{
-          defaults: {
-            global: {
-              defaultFontColor: "#000000", // Set the color to black or any other dark color
+        <Radar
+          options={{
+            defaults: {
+              global: {
+                defaultFontColor: "#000000", // Set the color to black or any other dark color
+              },
             },
-          },
-        }}
-        data={chartData}
-      />
+          }}
+          data={chartData}
+        />
 
-      <a
-        href={addUrl}
-        className="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        {buttonText}
-        <svg
-          className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 14 10"
+        <a
+          href={addUrl}
+          className="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d={svgPath}
-          />
-        </svg>
-      </a>
+          {buttonText}
+          <svg
+            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d={svgPath}
+            />
+          </svg>
+        </a>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ChartComponent;

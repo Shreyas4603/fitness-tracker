@@ -4,22 +4,18 @@ import { Chart as ChartJS, LineElement, PointElement, LinearScale,RadialLinearSc
 
 ChartJS.register(LineElement, PointElement, LinearScale, Title,RadialLinearScale);
 const ViewChartComponent = ({ title, chartData, min,max, color,LinkUrl }) => (
- <div className="max-w-full w-128 mx-5 my-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-400">
+ <div className="bg-background-900   m-5  rounded-lg shadow text-white  border border-background-900">
     <a href={LinkUrl}>
       <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
     </a>
     <div className="p-5">
       <a href="#" className="">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-600">
+        <h5 className="text-center text-2xl pb-3">
           {title}
         </h5>
       </a>
       <Radar
-        options={{
-          backgroundColor: color,
-          borderColor: color,
-          scales: {min:min, max:max}
-        }}
+
         data={chartData}
       />
     </div>

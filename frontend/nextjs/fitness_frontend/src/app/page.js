@@ -236,9 +236,9 @@ export default function Home() {
     return normalizedData;
   }
   return (
-    <>
-      <div className="flex flex-row m-2 justify-center">
-        <div className="flex flex-wrap justify-center items-center m-6">
+    <section className=" w-3/4 xl:w-3/4 grid grid-rows-1 grid-cols-1  mx-auto p-4 gap-4">
+      <div className="w-full grid grid-cols-5 grid-rows-1 items-center gap-4">
+        <div className="col-span-2">
           <LineChartComponent
             imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Weight chart"
@@ -249,6 +249,8 @@ export default function Home() {
             buttonText="Add more"
             color={"rgba(105,108,214,1)"}
           />
+        </div>
+        <div className="col-span-2">
           <LineChartComponent
             imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Height chart"
@@ -260,53 +262,56 @@ export default function Home() {
             color={"rgba(105,208,114,1)"}
           />
         </div>
-        <div className="flex flex-col justify-center items-center   space-y-4">
-          {/* Weight Circle */}
-          <div className="bg-gradient-to-b from-gray-300 to-amber-200 w-24 h-24 bg-white rounded-full flex items-center justify-center relative">
-            <span className="text-2xl font-bold">{latestWeight}</span>
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-300 rounded-full px-2 py-1 text-xs font-semibold">
-              Weight
-            </span>
-          </div>
-          {/* Height Circle */}
-          <div className="bg-gradient-to-b from-gray-300 to-amber-200 w-24 h-24 bg-white rounded-full flex items-center justify-center relative">
-            <span className="text-2xl font-bold">{latestHeight}</span>
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-300 rounded-full px-2 py-1 text-xs font-semibold">
-              Height
-            </span>
-          </div>
 
-          <a
-            href="/user-statistics"
-            className="inline-flex relative justify-center items-center mx-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-            // Set task to  0 for Add
-          >
-            Edit Stats
-          </a>
+        <div className="col-span-1 ">
+          
+          <div className="flex flex-col gap-2 xl:gap-5 justify-center items-center   bg-background-900 p-2 xl:py-10 border border-background-900 rounded-md w-full md:h-full">
+            <p className="text-white w-full text-center xl:block hidden">Current paramters</p>
+            {/* Weight Circle */}
+            <div className="bg-accent-900      shadow text-white  border border-background-900 p-5  rounded-full flex items-center justify-center relative">
+              <span className=" font-bold">{latestWeight} kg</span>
+            </div>
+            {/* Height Circle */}
+            <div className="bg-accent-900      shadow text-white  border border-background-900 p-5 rounded-full flex items-center justify-center relative">
+              <span className=" font-bold">{latestHeight} cm</span>
+            </div>
+
+            <a
+              href="/user-statistics"
+              className="bg-primary-500 text-white px-4 py-2 rounded"
+              // Set task to  0 for Add
+            >
+              Edit Stats
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center items-center">
-        <ChartComponent
-          imageSrc="/docs/images/blog/image-1.jpg"
-          chartTitle="Exercise charts"
-          chartData={chartData}
-          linkUrl="/exerciseview"
-          addUrl="/exercises"
-          svgPath="M1 5h12m0 0L9 1m4 4L9 9"
-          buttonText="Add more"
-        />
-
-        <ChartComponent
-          imageSrc="/docs/images/blog/image-1.jpg"
-          chartTitle="Workout charts"
-          chartData={workoutChartData}
-          linkUrl="/workoutview"
-          addUrl="/workouts"
-          svgPath="M1 5h12m0 0L9 1m4 4L9 9"
-          buttonText="Add more"
-        />
+      <div className="w-full grid grid-cols-4 grid-rows-1 items-center gap-4">
+        <div className="col-span-2 ">
+          {" "}
+          <ChartComponent
+            imageSrc="/docs/images/blog/image-1.jpg"
+            chartTitle="Exercise charts"
+            chartData={chartData}
+            linkUrl="/exerciseview"
+            addUrl="/exercises"
+            svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+            buttonText="Add more"
+          />
+        </div>
+        <div className="col-span-2">
+          <ChartComponent
+            imageSrc="/docs/images/blog/image-1.jpg"
+            chartTitle="Workout charts"
+            chartData={workoutChartData}
+            linkUrl="/workoutview"
+            addUrl="/workouts"
+            svgPath="M1 5h12m0 0L9 1m4 4L9 9"
+            buttonText="Add more"
+          />
+        </div>
       </div>
-    </>
+    </section>
   );
 }

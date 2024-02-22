@@ -100,7 +100,7 @@ function Page() {
   }, []);
 
   return (
-    <div className="bg-gray-950 w-full  ">
+    <div className="bg-background-950 w-full  text-white">
       <div
         className={`flex w-full xl:w-3/4 xl:mx-auto  gap-2 p-3  justify-evenly h-full${
           isEditing ? "flex-col" : ""
@@ -112,37 +112,37 @@ function Page() {
           }`}
         >
           <div className="relative overflow-x-auto rounded-xl">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
-              <thead className=" text-gray-100 capitalize  font-bold dark:bg-gray-700 bg-red-800 ">
+            <table className="w-full text-sm text-left rtl:text-right text-white  rounded-xl">
+              <thead className=" text-gray-100 capitalize  font-bold bg-background-800  ">
                 <tr>
                   <th
                     scope="col"
-                    className=" text-center p-3 border-r border-slate-600 "
+                    className=" text-center p-3 border-r border-background-600 "
                   >
                     Date
                   </th>
                   <th
                     scope="col"
-                    className=" text-center p-3 border-r border-slate-600 "
+                    className=" text-center p-3 border-r border-background-600 "
                   >
                     Weight
                   </th>
                   <th
                     scope="col"
-                    className=" text-center p-3 border-r border-slate-600 "
+                    className=" text-center p-3 border-r border-background-600 "
                   >
                     Height
                   </th>
                   <th
                     scope="col"
-                    className=" text-center p-3 border-r border-slate-600 "
+                    className=" text-center p-3 border-r border-background-600 "
                   >
                     Actions
                   </th>
 
                   <th
                     scope="col"
-                    className=" text-center p-3  border-slate-600 "
+                    className=" text-center p-3  border-background-600 "
                   >
                     Delete
                   </th>
@@ -152,12 +152,12 @@ function Page() {
                 {apiData.map((item) => (
                   <tr
                     key={item.parameterId}
-                    className="dark:bg-gray-800 dark:text-gray-400 text-center"
+                    className="dark:bg-background-900 dark:text-white text-center"
                   >
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.parameterId ? (
                         <input
-                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
+                          className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white  placeholder:font-medium outline-none"
                           name="date"
                           type="date"
                           value={item.date}
@@ -169,7 +169,7 @@ function Page() {
                         item.date
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.parameterId ? (
                         <input
                           className="w-max rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
@@ -184,7 +184,7 @@ function Page() {
                         item.weight
                       )}
                     </td>
-                    <td className="border-r border-slate-600 border-t">
+                    <td className="border-r border-background-600 border-t">
                       {editingRowId === item.parameterId ? (
                         <input
                           className=" rounded  px-4 py-2 text-center bg-slate-700 text-white placeholder:text-white placeholder:font-medium outline-none"
@@ -199,7 +199,7 @@ function Page() {
                         item.height
                       )}
                     </td>
-                    <td className=" border-slate-600 border-t p-4 border-r">
+                    <td className=" border-background-600 border-t p-4 border-r">
                       <button
                         onClick={() => {
                           setEditingRowId(item.parameterId);
@@ -213,7 +213,7 @@ function Page() {
                         Edit
                       </button>
                     </td>
-                    <td className=" border-slate-600 border-t p-4 ">
+                    <td className=" border-background-600 border-t p-4 ">
                       <button
                         onClick={() => {
                           handleDelete(item.parameterId);
@@ -231,7 +231,8 @@ function Page() {
           {isEditing === true ? (
             <div className="  p-2 flex items-center gap-4">
               <button
-                className=" text-sm font-medium px-4 py-2 text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                className=" text-sm font-medium px-4 py-2 text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200
+                 dark:focus:ring-primary-900 hover:bg-background-800"
                 onClick={() => {
                   setIsEditing(false);
                   setEditingRowId(null);
@@ -260,21 +261,21 @@ function Page() {
         </div>
 
         <div className={`w-1/3 ${isEditing ? " hidden " : " block "} `}>
-          <section className="bg-white dark:bg-gray-900 rounded-xl">
-            <div className="pb-5 px-4 pt-3  rounded-md  w-full flex flex-col items-start ">
-              <h2 className="mb-4 text-xl font-bold   text-center w-full dark:text-white">
+          <section className="bg-white dark:bg-background-900 rounded-xl">
+            <div className="  rounded-md  w-full flex flex-col items-start ">
+              <h2 className=" text-xl font-bold   text-center w-full dark:text-white pb-3 px-4 pt-3 border-b border-background-800  rounded-t-md">
                 Add a new Parameter
               </h2>
               <form
                 onSubmit={handleAdd}
                 action="#"
-                className="flex flex-col w-full justify-center"
+                className="flex flex-col w-full justify-center p-4"
               >
                 <div className=" ">
                   <div className="w-full my-2">
                     <label
                       htmlFor="brand"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium  dark:text-white"
                     >
                       Date
                     </label>
@@ -282,7 +283,7 @@ function Page() {
                       type="date"
                       name="date"
                       id="brand"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="date"
                       required={true}
                     />
@@ -290,7 +291,7 @@ function Page() {
                   <div className="w-full  my-2">
                     <label
                       htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium "
                     >
                       Weight in kgs
                     </label>
@@ -299,7 +300,7 @@ function Page() {
                       name="weight"
                       step="any"
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="30"
                       required=""
                     />
@@ -307,7 +308,7 @@ function Page() {
                   <div className="w-fullmy-2">
                     <label
                       htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium "
                     >
                       Height in cm
                     </label>
@@ -316,7 +317,7 @@ function Page() {
                       step="any"
                       name="height"
                       id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       required
                     />
                   </div>
@@ -324,7 +325,7 @@ function Page() {
                 <div className="mt-5">
                   <button
                     type="submit"
-                    className="w-full px-3 py-2    font-bold  text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-green-400"
+                    className="w-full px-3 py-2    font-bold  text-center text-white bg-primary-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-700"
                   >
                     Add
                   </button>
