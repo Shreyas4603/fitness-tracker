@@ -40,7 +40,7 @@ const Profile = () => {
                 <img className="h-12 w-12 rounded-full" src="https://flowbite.com/docs/images/logo.svg" alt="" />
               </div>
               <div className="ml-4">
-                <h1 className="text-lg leading-6 font-semibold">{}</h1>
+                <h1 className="text-lg leading-6 font-semibold">{myData?.data?.name}</h1>
                 <p className="text-sm text-background-400">{myData?.data?.email}</p>
               </div>
             </div>
