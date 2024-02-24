@@ -6,7 +6,7 @@ ChartJS.register(LineElement, PointElement, LinearScale, Title,RadialLinearScale
 const ViewChartComponent = ({ title, chartData, min,max, color,LinkUrl }) => (
  <div className="bg-background-900   m-5  rounded-lg shadow text-white  border border-background-900">
     <a href={LinkUrl}>
-      <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+      {/* <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" /> */}
     </a>
     <div className="p-5">
       <a href="#" className="">

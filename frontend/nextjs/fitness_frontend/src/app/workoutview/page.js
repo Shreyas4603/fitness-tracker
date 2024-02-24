@@ -34,7 +34,7 @@ export default function Home() {
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(localStorage.getItem("UserID"));
+
       if (Array.isArray(data) && data.length > 0) {
         const newRepsData = {
           labels: data.map((exercise) => exercise.workoutName || ""),

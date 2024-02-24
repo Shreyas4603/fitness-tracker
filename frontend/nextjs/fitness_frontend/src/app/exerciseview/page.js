@@ -44,7 +44,7 @@ export default function home() {
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(localStorage.getItem("UserID"), response.data);
+   
       if (Array.isArray(data) && data.length > 0) {
         const newdurationdata = {
           labels: data.map((exercise) => exercise.exerciseName || ""),
@@ -121,7 +121,7 @@ export default function home() {
                 backgroundColor: "rgba(214,151,255,0.5)",
                 borderColor: "rgba(214,151,255,1)",
                 
-                scale: { max: 100, min: 0 },
+                scale: { max: 5, min:0 },
               }}
               data={durchartData}
             />
@@ -150,7 +150,7 @@ export default function home() {
                 },
                 backgroundColor: "rgba(105,208,214,0.5)",
                 borderColor: "rgba(105,208,214,1)",
-                scale: { max: 20, min: 0 },
+                scale: { max: 20, min: -1 },
               }}
               data={distchartData}
             />
@@ -183,7 +183,7 @@ export default function home() {
                 },
                 backgroundColor: "rgba(230,133,92,0.5)",
                 borderColor: "rgba(230,133,92,1)",
-                scale: { max: 5000, min: 100 },
+                scale: { max: 500, min: 100 },
                 chartColor: "rgba(0,0,0,1)",
               }}
               data={calchartData}

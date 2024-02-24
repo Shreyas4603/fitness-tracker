@@ -31,7 +31,7 @@ function page() {
       calories: calories,
       date: date,
     };
-    console.log(myForm, "updated");
+    (myForm, "updated");
     // Post the form data to your API route using Axios
 
     try {
@@ -45,12 +45,12 @@ function page() {
         }
       );
 
-      //console.log(myForm,"hoiiii");
+
       window.location.reload();
       if (!response.data) {
         throw new Error("Network response was not ok");
       }
-      console.log(response.data);
+
       //router.replace("/");
       // Handle the response data
 
@@ -65,7 +65,7 @@ function page() {
     try {
       const response = await getData(dietUrl.get);
       const data = response;
-      console.log(data, "ffefef");
+      
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -85,7 +85,7 @@ function page() {
       date: formObject.date,
     };
     const { data, error } = await postData(dietUrl.post, body);
-    console.log("new", data);
+   
     if (data) {
       window.location.reload();
     } else {
@@ -97,7 +97,7 @@ function page() {
     const response = await deleteData(dietUrl.delete, {
       dietId: dietId,
     });
-    console.log(response);
+  
     if (response.message) window.location.reload();
   };
   useEffect(() => {
@@ -106,7 +106,6 @@ function page() {
       setapiData(data);
     })();
   }, []);
-
   useEffect(() => {
     console.log(mealType);
   }, [mealType]);

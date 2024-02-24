@@ -33,7 +33,7 @@ function Page() {
       );
 
       window.location.reload();
-      console.log(response.data);
+     
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
@@ -62,7 +62,7 @@ function Page() {
       "http://127.0.0.1:8000/api/parameter/delete",
       { parameterId: parameterId }
     );
-    console.log(response);
+
     if (response.message) window.location.reload();
   };
 
@@ -72,7 +72,7 @@ function Page() {
     const formObject = Object.fromEntries(formData.entries());
 
     let myForm = formObject;
-    console.log(myForm);
+   
     const body = {
       userId: localStorage.getItem("UserID"),
       weight: myForm.weight,
@@ -84,11 +84,11 @@ function Page() {
       "http://127.0.0.1:8000/api/parameter/add",
       body
     );
-    console.log("new", data);
+   
     if (data) {
       window.location.reload();
     } else {
-      console.log(error);
+     
     }
   };
 

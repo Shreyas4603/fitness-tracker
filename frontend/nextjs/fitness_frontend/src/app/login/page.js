@@ -19,7 +19,7 @@ export default function Home() {
         },
       });
       
-      console.log(response.data);
+   
       localStorage.setItem('UserID', response.data.data.pid);
       localStorage.setItem('displayData', JSON.stringify(response.data.data));
 

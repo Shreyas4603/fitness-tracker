@@ -1,9 +1,6 @@
-"use client";
-import Image from "next/image";
+"use client"; 
 import axios from "axios";
 import ChartComponent from "./components/ChartComponent";
-import { Chart } from "chart.js/auto";
-import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import { useState, useEffect } from "react";
 import LineChartComponent from "./components/LineChartComponent";
 import { redirect } from 'next/navigation'
@@ -76,7 +73,6 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(localStorage.getItem("UserID"));
       let norData =normalizeData (data);
       if (Array.isArray(data) && data.length > 0) {
         const newData = {
@@ -114,7 +110,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(data);
+      (data);
       let norData = normalizeData(data);
       if (Array.isArray(data) && data.length > 0) {
         const newData = {
@@ -148,7 +144,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(data);
+
       const sortedData = data.sort(
         (a, b) => new Date(a.date) - new Date(b.date)
       );
@@ -190,7 +186,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-      console.log(data, "latest data");
+    
       setLatestWeight(data.weight);
       setLatestHeight(data.height);
     } catch (error) {
@@ -257,7 +253,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       <div className="w-full grid grid-cols-5 grid-rows-1 items-center gap-4">
         <div className="col-span-2">
           <LineChartComponent
-            imageSrc="/docs/images/blog/image-1.jpg"
+            // imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Weight chart"
             chartData={weightchartData}
             linkUrl="/user-statistics"
@@ -269,7 +265,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
         </div>
         <div className="col-span-2">
           <LineChartComponent
-            imageSrc="/docs/images/blog/image-1.jpg"
+            // imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Height chart"
             chartData={heightchartData}
             linkUrl="/user-statistics"
@@ -282,8 +278,8 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
 
         <div className="col-span-1 ">
           
-          <div className="flex flex-col gap-2 xl:gap-5 justify-center items-center   bg-background-900 p-2 xl:py-10 border border-background-900 rounded-md w-full md:h-full">
-            <p className="text-white w-full text-center xl:block hidden">Current paramters</p>
+          <div className="flex flex-col gap-2 xl:gap-5 justify-center items-center   bg-background-900 p-5 2xl:py-10 border border-background-900 rounded-md w-full md:h-full">
+            <p className="text-white w-full text-center 2xl:block hidden">Current paramters</p>
             {/* Weight Circle */}
             <div className="bg-accent-900      shadow text-white  border border-background-900 p-5  rounded-full flex items-center justify-center relative">
               <span className=" font-bold">{latestWeight} kg</span>
@@ -308,7 +304,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
         <div className="col-span-2 ">
           {" "}
           <ChartComponent
-            imageSrc="/docs/images/blog/image-1.jpg"
+            // imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Exercise charts"
             chartData={chartData}
             linkUrl="/exerciseview"
@@ -320,7 +316,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
         </div>
         <div className="col-span-2">
           <ChartComponent
-            imageSrc="/docs/images/blog/image-1.jpg"
+            // imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Workout charts"
             chartData={workoutChartData}
             linkUrl="/workoutview"

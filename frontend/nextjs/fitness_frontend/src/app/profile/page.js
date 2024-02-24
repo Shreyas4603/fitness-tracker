@@ -17,7 +17,7 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:8000/api/profile/get/'+localStorage.getItem("UserID"));
-        console.log(response);
+
         if(response)
         setMyData(response.data);
       } catch (error) {

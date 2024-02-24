@@ -6,14 +6,14 @@ import { useState } from "react";
 function Navbar() {
   const [isRevealed, setIsRevealed] = useState(false);
 const loc=window.location.pathname.slice(1,)
-console.log(loc)
+
   const handleButtonClick = () => {
     setIsRevealed(!isRevealed); // Toggle the state
-    console.log("first", isRevealed); // Toggleevealed); // Toggle
+
   };
   const isLogged=localStorage.getItem('UserID')?true:false
   return (
-    <nav className= {` bg-background-950 border-b border-background-900 ${isLogged?"":'hidden'}`} >
+    <nav className= {`sticky top-0 z-[100000] bg-background-950 border-b border-background-900 ${isLogged?"":'hidden'}`} >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img

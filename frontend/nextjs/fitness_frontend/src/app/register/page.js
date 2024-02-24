@@ -15,7 +15,7 @@ export default function Home() {
 
     // Convert form data to an object
     const formObject = Object.fromEntries(formData.entries());
-    console.log(JSON.stringify(formObject));
+
 
     // Post the form data to your API route using Axios
     try {
@@ -29,7 +29,7 @@ export default function Home() {
         }
       );
 
-      console.log(formObject);
+
 
       if (!response.data) {
         throw new Error("Network response was not ok");

@@ -9,7 +9,7 @@ function page() {
   const [editingRowId, setEditingRowId] = useState(null);
   const [editingRowName, setEditingRowName] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-
+  const [name, setname] = useState()
   const [duration, setDuration] = useState("");
   const [distance, setDistance] = useState("");
   const [calories, setCalories] = useState("");
@@ -26,7 +26,7 @@ function page() {
 const  updateValues=async()=> {
     const myForm = {
       exerciseId: editingRowId,
-      exerciseName: editingRowName,
+      exerciseName: name||editingRowName,
       duration: duration,
       distance: distance,
       calories: calories,
@@ -197,9 +197,21 @@ const  updateValues=async()=> {
                     key={item.exerciseId}
                     className="dark:bg-background-900 dark:text-gray-400 text-center"
                   >
-                    <th className="border-r border-background-600 border-t">
-                      {item.exerciseName}
-                    </th>
+                    <td className="border-r border-background-600 border-t">
+                    {editingRowId === item.exerciseId ? (
+                        <input
+                        type="text"
+
+                          className="w-max rounded  px-4 py-2 text-center bg-background-700 text-white placeholder:text-white placeholder:font-medium border-none"
+                          placeholder={item?.exerciseName}
+                          onChange={(e) => {
+                            setname(e?.target?.value);
+                          }}
+                        />
+                      ) : (
+                        item.exerciseName
+                      )}
+                    </td>
                     <td className="border-r border-background-600 border-t">
                       {editingRowId === item.exerciseId ? (
                         <input

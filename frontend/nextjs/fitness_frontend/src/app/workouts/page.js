@@ -28,7 +28,7 @@ const [name, setname] = useState()
   async function updateValues() {
     const myForm = {
       workoutId: editingRowId,
-      workoutName: name,
+      workoutName: name ||editingRowName,
       reps: reps,
       weight: weight,
       date: date,
@@ -70,8 +70,9 @@ const [name, setname] = useState()
       date: formObject.date,
       achievement: formObject.award ? true : false,
     };
+    
     const { data, error } = await postData(workoutUrl.post, body);
-    console.log("new", data);
+    
     if (data) {
       window.location.reload();
     } else {
@@ -83,7 +84,7 @@ const [name, setname] = useState()
     const response = await deleteData(workoutUrl.delete, {
       workoutId: workoutId,
     });
-    console.log(response);
+   
     if (response.message) window.location.reload();
   };
   useEffect(() => {
@@ -221,13 +222,13 @@ const [name, setname] = useState()
                     <td className="border-r border-background-600 border-t">
                       {editingRowId === item.workoutId ? (
                         <Checkbox
-                          defaultChecked={item.achievement === 1.0}
+                          defaultChecked={item.achievement}
                           onChange={(e) => setAward(e.target.checked)}
                         />
                       ) : (
                         <Checkbox
                           disabled
-                          defaultChecked={item.achievement === 1.0}
+                          defaultChecked={item.achievement==1}
                         />
                       )}
                     </td>
