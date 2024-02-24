@@ -103,7 +103,7 @@ export default function home() {
 
           <div className="p-5">
               <h5 className="mb-2 text-2xl font-bold  ">
-                Duration *Mins
+                Duration *hrs
               </h5>
             <Radar
               options={{

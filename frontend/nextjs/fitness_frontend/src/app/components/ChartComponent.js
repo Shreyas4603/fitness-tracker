@@ -9,6 +9,8 @@ const ChartComponent = ({
   addUrl,
   svgPath,
   buttonText,
+  min,
+  max
 }) => {
   // Chart.defaults.backgroundColor = "#fffff";
   Chart.defaults.borderColor = "#424242";
@@ -41,6 +43,8 @@ const ChartComponent = ({
                 },
               },
             },
+            scale: { max: max, min: min },
+
           }}
           data={chartData}
         />

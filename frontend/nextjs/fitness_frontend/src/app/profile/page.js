@@ -1,16 +1,17 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Make sure to install axios if you haven't already
-import { LogoutIcon } from '@heroicons/react/outline';
+import { LogoutIcon } from '@heroicons/react/outline'
 
 const Profile = () => {
   const [myData, setMyData] = useState({
     name: "",
-    email: ".dope@gmail.com",
-    latest_height:   95.1,
-    latest_weight:   55.5,
-    total_achievements:   4
+    email: "",
+    latest_height:  0,
+    latest_weight:   0,
+    total_achievements:   0
   });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +30,13 @@ const Profile = () => {
 
 
   }, []);
+
+  const handleLogout=()=>{
+    localStorage.clear()
+    window.location.href = '/login';
+
+    
+  }
 
   return (
     <div className="min-h-screen bg-background-950 text-text-50 flex items-center justify-center">
@@ -63,10 +71,10 @@ const Profile = () => {
           </div>
           <div className="bg-background-800 p-6">
             <div className="flex items-center justify-end">
-              <a href='/register' className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded flex items-center">
+              <button className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded flex items-center" onClick={handleLogout}>
                 Logout
                 <LogoutIcon className="h-5 w-5 ml-2" aria-hidden="true" />
-              </a>
+              </button>
             </div>
           </div>
         </div>

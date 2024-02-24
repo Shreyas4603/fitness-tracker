@@ -5,7 +5,7 @@ import Navbar from './components/Navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 const outfit=Outfit({
-  weight: ['400','500','600'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
   display: 'swap',
 })
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html className='dark' lang="en">
       
-      <body className={`${outfit.className} bg-background-950 `}><Navbar/>{children}</body>
+      <body className={`${outfit.className} bg-background-950 text-white `}><Navbar/>{children}</body>
     </html>
   )
 }

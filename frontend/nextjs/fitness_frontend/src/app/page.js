@@ -6,57 +6,67 @@ import { Chart } from "chart.js/auto";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
 import { useState, useEffect } from "react";
 import LineChartComponent from "./components/LineChartComponent";
+import { redirect } from 'next/navigation'
 export default function Home() {
+const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('displayData')))
   const [chartData, setChartData] = useState({
-    labels: ["Exercise 1", "Exercise 2", "Exercise 3"],
+    labels: [],
     datasets: [
       {
-        label: "duration",
-        data: [100, 200, 300],
+        label: "",
+        data: [],
       },
       {
-        label: "distance",
-        data: [200, 300, 100],
+        label: "",
+        data: [],
       },
       {
-        label: "calories",
-        data: [300, 400, 200],
+        label: "",
+        data: [],
       },
     ],
   });
   const [workoutChartData, setWorkoutChartData] = useState({
-    labels: ["Workout 1", "Workout 2", "Workout 3"],
+    labels: [],
     datasets: [
       {
-        label: "reps",
-        data: [100, 200, 300],
+        label: "",
+        data: [],
       },
       {
-        label: "weight",
-        data: [200, 300, 100],
+        label: "",
+        data: [],
       },
     ],
   });
   const [weightchartData, setWeightChartData] = useState({
-    labels: ["2024-08-08", "2024-08-09", "2024-08-10"],
+    labels: [],
     datasets: [
       {
         label: "weight",
-        data: [100, 101, 100],
+        data: [],
       },
     ],
   });
   const [heightchartData, setHeightChartData] = useState({
-    labels: ["2024-08-08", "2024-08-09", "2024-08-10"],
+    labels: [],
     datasets: [
       {
         label: "height",
-        data: [100, 101, 100],
+        data: [],
       },
     ],
   });
   const [latestWeight, setLatestWeight] = useState(null);
   const [latestHeight, setLatestHeight] = useState(null);
+
+
+  useEffect(() => {
+    if(!localStorage.getItem('UserID')){
+      redirect('/login')
+    }
+  }, [])
+  
   async function fetchData() {
     try {
       // Replace 'API_ENDPOINT' with the actual endpoint of your API
@@ -67,7 +77,7 @@ export default function Home() {
       const data = response.data;
 
       console.log(localStorage.getItem("UserID"));
-      let norData = normalizeData(data);
+      let norData =normalizeData (data);
       if (Array.isArray(data) && data.length > 0) {
         const newData = {
           labels: data.map((exercise) => exercise.exerciseName || ""),
@@ -187,6 +197,8 @@ export default function Home() {
       console.error("Error fetching data:", error);
     }
   }
+
+  
   useEffect(() => {
     fetchData();
     const timer = setTimeout(() => {
@@ -235,8 +247,13 @@ export default function Home() {
 
     return normalizedData;
   }
+  
   return (
     <section className=" w-3/4 xl:w-3/4 grid grid-rows-1 grid-cols-1  mx-auto p-4 gap-4">
+      <div>
+        <p className="font-light text-4xl">Welcome <span className="font-bold  bg-gradient-to-r from-primary-500  to-accent-400 text-transparent bg-clip-text">{displayData?.username}</span></p>
+        <p className="text-sm text-background-400">Get ready to track your fitness journey and unlock your full potential  </p>
+      </div>
       <div className="w-full grid grid-cols-5 grid-rows-1 items-center gap-4">
         <div className="col-span-2">
           <LineChartComponent
@@ -298,6 +315,7 @@ export default function Home() {
             addUrl="/exercises"
             svgPath="M1 5h12m0 0L9 1m4 4L9 9"
             buttonText="Add more"
+            
           />
         </div>
         <div className="col-span-2">
@@ -309,6 +327,8 @@ export default function Home() {
             addUrl="/workouts"
             svgPath="M1 5h12m0 0L9 1m4 4L9 9"
             buttonText="Add more"
+            min={0}
+            max={1}
           />
         </div>
       </div>

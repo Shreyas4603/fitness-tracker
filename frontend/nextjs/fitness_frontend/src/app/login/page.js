@@ -21,6 +21,8 @@ export default function Home() {
       
       console.log(response.data);
       localStorage.setItem('UserID', response.data.data.pid);
+      localStorage.setItem('displayData', JSON.stringify(response.data.data));
+
       router.replace("/");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error.message);
@@ -29,12 +31,12 @@ export default function Home() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-500">
-      <section className="bg-gray-50 dark:bg-gray-800">
+    <section className="">
+      <section className="">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a
             href="#"
-            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+            className="flex items-center mb-6 text-2xl font-semibold text-white"
           >
             <img
               className="w-8 h-8 mr-2"
@@ -43,7 +45,7 @@ export default function Home() {
             />
             FitraX
           </a>
-          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-900 dark:border-gray-700">
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-background-950 dark:border-background-900">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Login with Email
@@ -60,9 +62,9 @@ export default function Home() {
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
-                    required=""
+                    className=" sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-background-900 dark:placeholder-background-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-none"
+                    placeholder="name@domain.com"
+                    required
                   />
                 </div>
                 
@@ -78,8 +80,8 @@ export default function Home() {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    className="sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-background-900 dark:placeholder-background-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-none"
+                    required
                   />
                 </div>
                 

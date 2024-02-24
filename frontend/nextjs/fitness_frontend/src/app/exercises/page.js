@@ -350,10 +350,10 @@ const  updateValues=async()=> {
                       htmlFor="price"
                       className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Duration in Minutes
+                      Duration in hours
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       name="duration"
                      
                       id="price"

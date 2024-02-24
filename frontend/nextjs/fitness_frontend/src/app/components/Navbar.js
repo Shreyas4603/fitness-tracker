@@ -11,8 +11,9 @@ console.log(loc)
     setIsRevealed(!isRevealed); // Toggle the state
     console.log("first", isRevealed); // Toggleevealed); // Toggle
   };
+  const isLogged=localStorage.getItem('UserID')?true:false
   return (
-    <nav className=" sticky top-0  z-[10000] bg-background-950 border-b border-background-900 ">
+    <nav className= {` bg-background-950 border-b border-background-900 ${isLogged?"":'hidden'}`} >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
