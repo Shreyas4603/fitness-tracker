@@ -1,0 +1,25 @@
+import React, { useEffect, useState } from 'react'
+import { getData } from '../../../utils/apiCall'
+
+export const LatestMeal = () => {
+    const [dietInfo, setdietInfo] = useState()
+    useEffect(() => {
+        const callApi=async()=>{
+            const data =await getData(`http://127.0.0.1:8000/api/diet/getLatest/${localStorage.getItem('UserID')}`);
+if(data){
+   setdietInfo(data?.data)
+}
+            
+        }
+        callApi()
+    }, [])
+    
+  return (
+    <div className='bg-background-900 h-full rounded-lg flex flex-col items-center justify-evenly text-center'>
+        <p className='text-xl  font-bold'>{dietInfo?.mealType}</p>
+        <p className='text-sm font-light'>{dietInfo?.protein }gm</p>
+        <p className='text-sm font-light'>{dietInfo?.calories} kcal</p>
+
+    </div>
+  )
+}

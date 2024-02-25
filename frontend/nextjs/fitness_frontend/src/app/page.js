@@ -1,11 +1,14 @@
-"use client"; 
+"use client";
 import axios from "axios";
 import ChartComponent from "./components/ChartComponent";
 import { useState, useEffect } from "react";
 import LineChartComponent from "./components/LineChartComponent";
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
+import { LatestMeal } from "./components/LatestMeal";
 export default function Home() {
-const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('displayData')))
+  const [displayData, setdisplayData] = useState(
+    JSON.parse(localStorage.getItem("displayData"))
+  );
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -57,13 +60,12 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
   const [latestWeight, setLatestWeight] = useState(null);
   const [latestHeight, setLatestHeight] = useState(null);
 
-
   useEffect(() => {
-    if(!localStorage.getItem('UserID')){
-      redirect('/login')
+    if (!localStorage.getItem("UserID")) {
+      redirect("/login");
     }
-  }, [])
-  
+  }, []);
+
   async function fetchData() {
     try {
       // Replace 'API_ENDPOINT' with the actual endpoint of your API
@@ -73,7 +75,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-      let norData =normalizeData (data);
+      let norData = normalizeData(data);
       if (Array.isArray(data) && data.length > 0) {
         const newData = {
           labels: data.map((exercise) => exercise.exerciseName || ""),
@@ -110,7 +112,7 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-      (data);
+      data;
       let norData = normalizeData(data);
       if (Array.isArray(data) && data.length > 0) {
         const newData = {
@@ -143,7 +145,6 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
         localStorage.getItem("UserID");
       const response = await axios.get(apistr);
       const data = response.data;
-
 
       const sortedData = data.sort(
         (a, b) => new Date(a.date) - new Date(b.date)
@@ -186,7 +187,6 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
       const response = await axios.get(apistr);
       const data = response.data;
 
-    
       setLatestWeight(data.weight);
       setLatestHeight(data.height);
     } catch (error) {
@@ -194,17 +194,16 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
     }
   }
 
-  
   useEffect(() => {
     fetchData();
-    const timer = setTimeout(() => {
-      fetchWorkoutData();
+    const timer =  setTimeout(async() => {
+      await fetchWorkoutData();
     }, 20);
-    const timer2 = setTimeout(() => {
-      fetchWeightData();
+    const timer2 = setTimeout(async() => {
+      await fetchWeightData();
     }, 40);
-    const timer3 = setTimeout(() => {
-      fetchLatestData();
+    const timer3 = setTimeout(async() => {
+      await fetchLatestData();
     }, 70);
     return () => {
       clearTimeout(timer);
@@ -243,12 +242,19 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
 
     return normalizedData;
   }
-  
+
   return (
     <section className=" w-3/4 xl:w-3/4 grid grid-rows-1 grid-cols-1  mx-auto p-4 gap-4">
       <div>
-        <p className="font-light text-4xl">Welcome <span className="font-bold  bg-gradient-to-r from-primary-500  to-accent-400 text-transparent bg-clip-text">{displayData?.username}</span></p>
-        <p className="text-sm text-background-400">Get ready to track your fitness journey and unlock your full potential  </p>
+        <p className="font-light text-4xl">
+          Welcome{" "}
+          <span className="font-bold  bg-gradient-to-r from-primary-500  to-accent-400 text-transparent bg-clip-text">
+            {displayData?.username}
+          </span>
+        </p>
+        <p className="text-sm text-background-400">
+          Get ready to track your fitness journey and unlock your full potential{" "}
+        </p>
       </div>
       <div className="w-full grid grid-cols-5 grid-rows-1 items-center gap-4">
         <div className="col-span-2">
@@ -276,26 +282,12 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
           />
         </div>
 
-        <div className="col-span-1 ">
-          
-          <div className="flex flex-col gap-2 xl:gap-5 justify-center items-center   bg-background-900 p-5 2xl:py-10 border border-background-900 rounded-md w-full md:h-full">
-            <p className="text-white w-full text-center 2xl:block hidden">Current paramters</p>
-            {/* Weight Circle */}
-            <div className="bg-accent-900      shadow text-white  border border-background-900 p-5  rounded-full flex items-center justify-center relative">
-              <span className=" font-bold">{latestWeight} kg</span>
-            </div>
-            {/* Height Circle */}
-            <div className="bg-accent-900      shadow text-white  border border-background-900 p-5 rounded-full flex items-center justify-center relative">
-              <span className=" font-bold">{latestHeight} cm</span>
-            </div>
+        <div className=" grid grid-rows-2 h-full gap-3">
+          <LatestMeal />
+          <div className="bg-background-900 rounded-lg h-full flex flex-col items-center justify-evenly">
+            <p>{latestWeight} kg</p>
+            <p>{latestHeight} cm</p>
 
-            <a
-              href="/user-statistics"
-              className="bg-primary-500 text-white px-4 py-2 rounded"
-              // Set task to  0 for Add
-            >
-              Edit Stats
-            </a>
           </div>
         </div>
       </div>
@@ -311,7 +303,6 @@ const [displayData, setdisplayData] = useState(JSON.parse(localStorage.getItem('
             addUrl="/exercises"
             svgPath="M1 5h12m0 0L9 1m4 4L9 9"
             buttonText="Add more"
-            
           />
         </div>
         <div className="col-span-2">

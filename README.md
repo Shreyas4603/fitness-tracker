@@ -19,7 +19,7 @@ This is  the Fitness Tracker project.
 
 3. Install packages:
    ```bash
-   pip install fastapi uuid bcrypt uvicorn
+   pip install fastapi uuid bcrypt uvicorn mysql-connector-python
 
 4. ### Run server:
    ```bash
