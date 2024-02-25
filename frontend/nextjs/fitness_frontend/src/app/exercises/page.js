@@ -9,10 +9,10 @@ function page() {
   const [editingRowId, setEditingRowId] = useState(null);
   const [editingRowName, setEditingRowName] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setname] = useState()
-  const [duration, setDuration] = useState("");
-  const [distance, setDistance] = useState("");
-  const [calories, setCalories] = useState("");
+  const [name, setname] = useState('')
+  const [duration, setDuration] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [calories, setCalories] = useState(0);
   const [award, setAward] = useState(false);    
   const exerciseUrl = {
       post: "http://127.0.0.1:8000/api/exercise/add",
@@ -371,7 +371,7 @@ const  updateValues=async()=> {
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="30"
-                      required
+                      
                     />
                   </div>
                   <div className="w-full">
@@ -387,7 +387,7 @@ const  updateValues=async()=> {
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="type 0 if not applicable"
-                      required
+                      
                     />
                   </div>
                   <div className="w-full">
@@ -404,7 +404,7 @@ const  updateValues=async()=> {
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="Kcal"
-                      required
+                      
                     />
                   </div>
 

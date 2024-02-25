@@ -137,7 +137,7 @@ const [name, setname] = useState()
                     scope="col"
                     className="text-center p-3 border-r border-background-600"
                   >
-                    Acheievments
+                    Achievements
                   </th>
                   <th
                     scope="col"

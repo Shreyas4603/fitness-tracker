@@ -9,10 +9,10 @@ function page() {
   const [editingRowName, setEditingRowName] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
-  const [protein, setProtein] = useState("");
-  const [calories, setCalories] = useState("");
+  const [protein, setProtein] = useState(0);
+  const [calories, setCalories] = useState(0);
   const [date, setDate] = useState("");
-  const [mealType, setmealType] = useState();
+  const [mealType, setmealType] = useState('Breakfast');
 
   const dietUrl = {
     post: "http://127.0.0.1:8000/api/diet/add",
@@ -79,9 +79,9 @@ function page() {
 
     const body = {
       userid: localStorage.getItem("UserID"),
-      mealType: formObject.mealType,
-      protein: formObject.protein,
-      calories: formObject.calories,
+      mealType: formObject.mealType || 'Breakfast',
+      protein: formObject.protein || 0,
+      calories: formObject.calories || 0,
       date: formObject.date,
     };
     const { data, error } = await postData(dietUrl.post, body);
@@ -313,6 +313,7 @@ function page() {
                     <select
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       name="mealType"
+                      required
                     >
                       <option>Breakfast</option>
                       <option>Lunch</option>
@@ -334,7 +335,7 @@ function page() {
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="grams"
-                      required=""
+                      
                     />
                   </div>
                   <div className="w-full">
@@ -351,7 +352,7 @@ function page() {
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="kcal"
-                      required=""
+                      
                     />
                   </div>
                   <div className="w-full">
@@ -367,7 +368,7 @@ function page() {
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       placeholder="YYYY-MM-DD"
-                      required=""
+                      required
                     />
                   </div>
                 </div>

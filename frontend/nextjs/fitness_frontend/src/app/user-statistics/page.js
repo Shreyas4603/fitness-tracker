@@ -284,7 +284,7 @@ function Page() {
                       name="date"
                       id="brand"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
-                      placeholder="date"
+                      placeholder
                       required={true}
                     />
                   </div>
@@ -301,8 +301,8 @@ function Page() {
                       step="any"
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
-                      placeholder="30"
-                      required=""
+                      placeholder="80 kg"
+                      required
                     />
                   </div>
                   <div className="w-fullmy-2">
@@ -316,6 +316,7 @@ function Page() {
                       type="number"
                       step="any"
                       name="height"
+                      placeholder="180 cm"
                       id="price"
                       className="bg-background-800   text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 border-none"
                       required
