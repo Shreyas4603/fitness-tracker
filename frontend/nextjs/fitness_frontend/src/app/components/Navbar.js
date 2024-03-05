@@ -119,6 +119,15 @@ const loc=window.location.pathname.slice(1,)
                 Diet
               </a>
             </li>
+            <li>
+              <a
+                href="view"
+                className={`block py-2 px-3  rounded   md:p-0 
+                  ${loc=='view'?" text-blue-600":"dark:text-white "}`}
+              >
+                View
+              </a>
+            </li>
           </ul>
         </div>
       </div>
