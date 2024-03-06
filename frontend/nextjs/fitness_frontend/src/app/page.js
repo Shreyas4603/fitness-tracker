@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import LineChartComponent from "./components/LineChartComponent";
 import { redirect } from "next/navigation";
 import { LatestMeal } from "./components/LatestMeal";
+import BMI from "./components/BMI";
 export default function Home() {
   const [displayData, setdisplayData] = useState(
     JSON.parse(localStorage.getItem("displayData"))
@@ -244,8 +245,9 @@ export default function Home() {
   }
 
   return (
-    <section className=" w-3/4 xl:w-3/4 grid grid-rows-1 grid-cols-1  mx-auto p-4 gap-4">
-      <div>
+    <section className=" w-[90vw] xl:w-3/4 grid grid-rows-1 grid-cols-1  mx-auto p-4 gap-4">
+      <div className="grid grid-cols-4">
+      <div className="col-span-2">
         <p className="font-light text-4xl">
           Welcome{" "}
           <span className="font-bold  bg-gradient-to-r from-primary-500  to-accent-400 text-transparent bg-clip-text">
@@ -255,9 +257,17 @@ export default function Home() {
         <p className="text-sm text-background-400">
           Get ready to track your fitness journey and unlock your full potential{" "}
         </p>
+        
       </div>
-      <div className="w-full grid grid-cols-5 grid-rows-1 items-center gap-4">
-        <div className="col-span-2">
+      <div className="w-full col-span-2">
+        <LatestMeal/>
+      </div>
+      
+      </div>
+
+      <div className="w-full grid grid-cols-3 grid-rows-1 items-center gap-4">
+
+        <div className="col-span- 2">
           <LineChartComponent
             // imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Weight chart"
@@ -269,7 +279,7 @@ export default function Home() {
             color={"rgba(105,108,214,1)"}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span -2">
           <LineChartComponent
             // imageSrc="/docs/images/blog/image-1.jpg"
             chartTitle="Height chart"
@@ -282,12 +292,14 @@ export default function Home() {
           />
         </div>
 
-        <div className=" grid grid-rows-2 h-full gap-3">
-          <LatestMeal />
-          <div className="bg-background-900 rounded-lg h-full flex flex-col items-center justify-evenly">
+        <div className=" grid grid-rows-1 h-full gap-3 place-items-center">
+          {/* <LatestMeal /> */}
+          <div className="bg-background-900 rounded-lg h-full flex flex-col items-center justify-evenly w-full">
+            <BMI weight={latestWeight } height={latestHeight}/>
+            <div className="flex gap-3 text-gray-400 font-light">
             <p>{latestWeight} kg</p>
             <p>{latestHeight} cm</p>
-
+          </div>
           </div>
         </div>
       </div>

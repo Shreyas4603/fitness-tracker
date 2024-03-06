@@ -15,10 +15,10 @@ if(data){
     }, [])
     
   return (
-    <div className='bg-background-900 h-full rounded-lg flex flex-col items-center justify-evenly text-center'>
-        <p className='text-xl  font-bold'>{dietInfo?.mealType}</p>
-        <p className='text-sm font-light'>{dietInfo?.protein }gm</p>
-        <p className='text-sm font-light'>{dietInfo?.calories} kcal</p>
+    <div className='bg-background-900 h-full rounded-lg flex p-1 items-center justify-evenly text-center'>
+        <p className='text-xl  font-bold'> {dietInfo?.mealType}</p>
+        <p className='text-sm font-light'>Protein : {dietInfo?.protein } gm</p>
+        <p className='text-sm font-light'>Calories : {dietInfo?.calories} kcal</p>
 
     </div>
   )
