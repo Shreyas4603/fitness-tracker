@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException,Request
 from pydantic import BaseModel
 from typing import Dict, List, Union  # Import necessary types
 from datetime import datetime, date
@@ -7,12 +7,30 @@ import uuid
 
 cur = db.cur
 router = APIRouter()
+class ViewRequest(BaseModel):
+    view_name: str
 
-@router.get("/api/view/get", status_code=200)
-def get_view():
+
+@router.get("/api/view/getAll", status_code=200)
+def get_all():
     try:
-        # Execute the query to fetch data from the database
-        cur.execute("SELECT * FROM DietDetails;")
+        cur.execute("SHOW FULL TABLES IN fitness WHERE TABLE_TYPE LIKE 'VIEW';")
+        data = cur.fetchall()
+        # Extract view names from the fetched data
+        view_names = [row[0] for row in data]
+        # Return the view names as JSON response
+        return {"data": view_names}
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
+@router.post("/api/view/get", status_code=200)
+def get_view(request: Request, view_req: ViewRequest):
+    try:
+        view_name = view_req.view_name
+        # Execute the query to fetch data from the specified view
+        cur.execute(f"SELECT * FROM {view_name};")
         # Fetch all the rows from the result
         rows = cur.fetchall()
         # Create a list to store the formatted data
